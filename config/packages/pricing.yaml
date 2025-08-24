@@ -1,0 +1,415 @@
+parameters:
+  pricing:
+    calibration_factor: 1.0
+    day_rate:
+      min: 630       # £90/hour × 7hr day
+      max: 805       # £115/hour × 7hr day
+    contingency: 0.15
+    project_management: 0.15
+
+    # Phase breakdown configuration
+    phases:
+      # Base percentages for non-discovery phases (percentages of remaining space after discovery)
+      # These percentages should total 0.95 (95% of remaining space), leaving 5% for deployment
+      # The deployment percentage is calculated dynamically as the remainder
+      base_percentages:
+        project_management: 0.15  # 15% of remaining space
+        design: 0.10              # 10% of remaining space
+        build: 0.55               # 55% of remaining space
+        qa: 0.15                  # 15% of remaining space
+      # Total: 0.95 (95% of remaining space after discovery)
+
+    # Payment schedule configuration
+    payment_schedules:
+      thresholds:
+        small_project: 500      # Under this amount: full payment
+        medium_project: 3000    # Under this amount: 50/50 split
+      # Small projects: full payment on completion
+      small:
+        - label: "Full payment on completion"
+          low_percent: 1.0
+          high_percent: 1.0
+      # Medium projects: 50% deposit, 50% on completion
+      medium:
+        - label: "Deposit (50%)"
+          low_percent: 0.5
+          high_percent: 0.5
+        - label: "Final payment (50%)"
+          low_percent: 0.5
+          high_percent: 0.5
+      # Large projects: 4-stage payment
+      large:
+        - label: "Deposit (40%)"
+          low_percent: 0.4
+          high_percent: 0.4
+        - label: "Design Sign Off (25%)"
+          low_percent: 0.25
+          high_percent: 0.2
+        - label: "Initial Build Completed (25%)"
+          low_percent: 0.25
+          high_percent: 0.2
+        - label: "Go Live (10%)"
+          low_percent: 0.1
+          high_percent: 0.2
+
+    # Support cost configuration
+    support:
+      # Monthly support cost as percentage of project cost
+      coefficients:
+        small: 0.04    # 4% for projects under £5,000
+        medium: 0.03   # 3% for projects £5,000 - £15,000
+        large: 0.02    # 2% for projects over £15,000
+      # Thresholds for support coefficient tiers
+      thresholds:
+        small: 5000
+        medium: 15000
+      # Maximum monthly support cost
+      max_monthly: 900
+
+    project_types:
+      existing_site:
+        days: 0
+        title: "Existing site"
+        description: "Use this as a base for adding new features or functionality to a pre-existing client site."
+      holding_page:
+        days: 2
+        title: "Holding page"
+        description: "A single page often containing an email capture form."
+      landing:
+        days: 4
+        title: "Landing page / Microsite"
+        description: "A focused, standalone web presence for a specific campaign or objective."
+      brochure:
+        days: 6
+        title: "Brochure site (FlightCMS or similar)"
+        description: "Simple informational website presenting a business, organization, or service online."
+      headless_cms_site:
+        days: 8
+        title: "Headless CMS Site (Storyblok or similar)"
+        description: "Content-managed site using headless CMS with separate frontend framework."
+      ecommerce:
+        days: 10
+        title: "Ecommerce site"
+        description: "Online store to sell products/services. Typically Shopify or custom."
+      internal_portal:
+        days: 20
+        title: "Internal portal / Intranet"
+        description: "Private platform for employees to access company resources and tools."
+      webapp:
+        days: 20
+        title: "Web App"
+        description: "Interactive software application running in a browser with dynamic functionality."
+      learning_platform:
+        days: 30
+        title: "Learning platform / Education tool"
+        description: "Web-based system to deliver, manage, and track educational content."
+      mobile_app:
+        days: 30
+        title: "Mobile App"
+        description: "Application designed to run on a mobile device, native or hybrid."
+      rebuild_migration:
+        days: 8
+        title: "Rebuild / Migration"
+        description: "Updating an existing website while keeping design and functionality aligned with best practices."
+
+      # Modern Web Applications
+      progressive_web_app:
+        days: 25
+        title: "Progressive Web App (PWA)"
+        description: "Web application with native app-like features including offline support, push notifications, and app-like experience."
+
+      ecommerce_migration:
+        days: 18
+        title: "E-commerce Platform Migration"
+        description: "Migrating from one e-commerce platform to another while preserving data and functionality."
+      multi_tenant_saas:
+        days: 40
+        title: "Multi-tenant SaaS Platform"
+        description: "Software-as-a-Service platform supporting multiple client organizations with isolated data and features."
+      real_time_collaboration:
+        days: 35
+        title: "Real-time Collaboration Tool"
+        description: "Web application with real-time features including chat, document editing, and live updates."
+      marketplace_platform:
+        days: 45
+        title: "Marketplace Platform"
+        description: "Multi-vendor marketplace connecting buyers and sellers with transaction management."
+
+      # Industry-Specific Platforms
+      healthcare_portal:
+        days: 35
+        title: "Healthcare Portal"
+        description: "HIPAA-compliant patient portal with appointment booking, medical records, and telemedicine features."
+      financial_services:
+        days: 40
+        title: "Financial Services Platform"
+        description: "Banking, investment, or insurance platform with compliance and advanced security features."
+      educational_institution:
+        days: 25
+        title: "Educational Institution Site"
+        description: "University/college website with course management, student portals, and alumni networks."
+      nonprofit_organization:
+        days: 20
+        title: "Non-profit Organization Site"
+        description: "Donation management, volunteer coordination, event management, and impact reporting."
+      real_estate_platform:
+        days: 30
+        title: "Real Estate Platform"
+        description: "Property listings, virtual tours, mortgage calculators, and agent management system."
+
+    features:
+      design_one:
+        days: 1
+        title: "Design: 1 day"
+        description: "Standalone cost - design already included in site costs."
+      design_three:
+        days: 3
+        title: "Design: 3 days"
+        description: "Standalone cost - design already included in site costs."
+      design_five:
+        days: 5
+        title: "Design: 5 days"
+        description: "Standalone cost - design already included in site costs."
+      auth_roles:
+        days: 3
+        title: "Auth & Roles"
+        description: "User authentication and permission roles."
+      cms:
+        days: 8
+        title: "CMS integration / Custom CMS"
+        description: "Integration of CMS or custom-built content management system."
+      ecommerce_features:
+        days: 13
+        title: "Ecommerce features"
+        description: "Cart, checkout, discounts, inventory management."
+      third_party_integration_simple:
+        days: 2
+        title: "Third party integration (simple)"
+        description: "Mailchimp, Zapier etc. Simple integration, no custom development."
+      third_party_integration_complex:
+        days: 9
+        title: "Third party integration (complex)"
+        description: "Hubspot, Salesforce, Zendesk. Requires custom development."
+      payment_gateway:
+        days: 2
+        title: "Payment gateway"
+        description: "Stripe, PayPal, or other payment provider integration."
+      dashboard_reporting:
+        days: 5
+        title: "Dashboard & Reporting"
+        description: "Admin dashboards and reporting tools."
+      multi_language:
+        days: 3
+        title: "Multi-language"
+        description: "Multi-language or localization support."
+      accessibility:
+        days: 5
+        title: "Accessibility compliance"
+        description: "WCAG AA/AAA accessibility compliance."
+      api_development:
+        days: 5
+        title: "API development"
+        description: "REST API for external clients or mobile apps."
+      devops_hosting:
+        days: 3
+        title: "DevOps / Hosting"
+        description: "CI/CD, Docker, server setup or scaling. Not standard hosting."
+
+      # Merged Add-ons
+      seo:
+        days: 2
+        title: "SEO Research & Competitor Analysis"
+        description: "Comprehensive keyword research and competitor analysis to identify ranking opportunities, content gaps, and strategic insights that boost your organic search performance and outrank competitors."
+      analytics_setup:
+        days: 0.5
+        title: "Analytics & Tracking"
+        description: "Integrate Google Analytics, Tag Manager, or other tracking tools."
+      marketing_automation:
+        days: 2
+        title: "Marketing Automation"
+        description: "Email automation, workflows, and triggers."
+
+      # Advanced Features
+      advanced_security:
+        days: 4
+        title: "Advanced Security & Compliance"
+        description: "Two-factor authentication, GDPR compliance, SOC2 preparation, advanced encryption, security audits."
+      real_time_notifications:
+        days: 3
+        title: "Real-time Notifications"
+        description: "Push notifications, email alerts, SMS integration, in-app notifications, notification preferences."
+      advanced_search_filtering:
+        days: 4
+        title: "Advanced Search & Filtering"
+        description: "Elasticsearch integration, faceted search, autocomplete, search analytics, advanced filters."
+      content_management_advanced:
+        days: 6
+        title: "Advanced Content Management"
+        description: "Workflow approvals, version control, content scheduling, multi-user editing, content templates."
+      performance_optimization:
+        days: 3
+        title: "Performance Optimization"
+        description: "CDN setup, image optimization, caching strategies, performance monitoring, Core Web Vitals optimization."
+      advanced_analytics:
+        days: 4
+        title: "Advanced Analytics & Insights"
+        description: "Custom dashboards, user behavior tracking, conversion funnels, A/B testing, predictive analytics."
+      mobile_app_features:
+        days: 8
+        title: "Mobile App Features"
+        description: "Native mobile app development, push notifications, offline sync, app store optimization, mobile-specific UI."
+      integration_hub:
+        days: 6
+        title: "Integration Hub"
+        description: "Centralized API management, webhook system, data synchronization, custom integrations, integration monitoring."
+      advanced_user_management:
+        days: 5
+        title: "Advanced User Management"
+        description: "Role-based access control, user groups, permissions, audit logging, user lifecycle management."
+      content_personalization:
+        days: 7
+        title: "Content Personalization"
+        description: "User segmentation, dynamic content, recommendation engines, behavioral targeting, personalized experiences."
+
+      # Industry-Specific Features
+      hipaa_compliance:
+        days: 6
+        title: "HIPAA Compliance"
+        description: "Healthcare data security, patient privacy protection, audit trails, compliance reporting, secure messaging."
+      financial_compliance:
+        days: 5
+        title: "Financial Compliance"
+        description: "PCI DSS compliance, KYC verification, AML monitoring, regulatory reporting, secure transactions."
+      accessibility_advanced:
+        days: 8
+        title: "Advanced Accessibility"
+        description: "WCAG AAA compliance, screen reader optimization, keyboard navigation, color contrast, assistive technology support."
+      multilingual_advanced:
+        days: 6
+        title: "Advanced Multilingual Support"
+        description: "RTL language support, cultural localization, currency conversion, timezone handling, regional compliance."
+      ai_ml_features:
+        days: 12
+        title: "AI & Machine Learning"
+        description: "Chatbots, recommendation systems, predictive analytics, natural language processing, automated insights."
+      blockchain_integration:
+        days: 10
+        title: "Blockchain Integration"
+        description: "Smart contracts, cryptocurrency payments, decentralized identity, blockchain verification, wallet integration."
+
+    # Feature compatibility rules
+    compatibility:
+      # Project type incompatibilities
+      project_type_incompatibilities:
+        holding_page:
+          incompatible_features: ['ecommerce_features', 'cms', 'dashboard_reporting', 'advanced_security', 'real_time_notifications', 'ai_ml_features']
+          message: "Holding pages are simple single-page sites and cannot support complex features like ecommerce, CMS, dashboards, or advanced functionality."
+        landing:
+          incompatible_features: ['ecommerce_features', 'cms', 'dashboard_reporting', 'advanced_security', 'real_time_notifications', 'ai_ml_features']
+          message: "Landing pages are focused campaign pages and cannot support complex features like ecommerce, CMS, dashboards, or advanced functionality."
+        brochure:
+          incompatible_features: ['ecommerce_features', 'dashboard_reporting', 'ai_ml_features', 'blockchain_integration']
+          message: "Brochure sites are informational websites and cannot support ecommerce features, complex dashboards, or advanced technologies."
+
+        # Modern web applications have broader compatibility
+        progressive_web_app:
+          incompatible_features: ['hipaa_compliance', 'financial_compliance']
+          message: "PWAs are web applications and may not meet strict healthcare or financial compliance requirements without additional security measures."
+        headless_cms_site:
+          incompatible_features: ['hipaa_compliance', 'financial_compliance']
+          message: "Headless CMS sites may require additional security measures for healthcare or financial compliance requirements."
+
+        # Industry-specific restrictions
+        healthcare_portal:
+          incompatible_features: ['blockchain_integration', 'ai_ml_features']
+          message: "Healthcare portals require strict compliance and may not support experimental technologies like blockchain or AI without proper validation."
+        financial_services:
+          incompatible_features: ['blockchain_integration']
+          message: "Financial services platforms require regulatory approval for blockchain integration and may have compliance restrictions."
+
+      # Feature combination incompatibilities
+      feature_incompatibilities:
+        design_features:
+          conflicting_features: ['design_one', 'design_three', 'design_five']
+          message: "Please select only one design option."
+        integration_features:
+          conflicting_features: ['third_party_integration_simple', 'third_party_integration_complex']
+          message: "Simple and complex third-party integrations cannot be selected together."
+        security_features:
+          conflicting_features: ['advanced_security', 'hipaa_compliance', 'financial_compliance']
+          message: "Multiple security compliance features may conflict. Choose the one that best fits your industry requirements."
+        accessibility_features:
+          conflicting_features: ['accessibility', 'accessibility_advanced']
+          message: "Choose either basic accessibility or advanced accessibility, not both."
+        multilingual_features:
+          conflicting_features: ['multi_language', 'multilingual_advanced']
+          message: "Choose either basic multilingual support or advanced multilingual support, not both."
+        analytics_features:
+          conflicting_features: ['analytics_setup', 'advanced_analytics']
+          message: "Choose either basic analytics setup or advanced analytics, not both."
+
+      # Feature dependencies
+      feature_dependencies:
+        ecommerce_features:
+          required_features: ['payment_gateway']
+          message: "Ecommerce features typically require a payment gateway. Consider adding this."
+        real_time_notifications:
+          required_features: ['performance_optimization']
+          message: "Real-time notifications require performance optimization for reliable delivery. Consider adding this."
+        advanced_search_filtering:
+          required_features: ['performance_optimization']
+          message: "Advanced search and filtering requires performance optimization for fast response times. Consider adding this."
+        ai_ml_features:
+          required_features: ['advanced_analytics', 'performance_optimization']
+          message: "AI and machine learning features require advanced analytics and performance optimization. Consider adding these."
+        blockchain_integration:
+          required_features: ['advanced_security', 'performance_optimization']
+          message: "Blockchain integration requires advanced security and performance optimization. Consider adding these."
+        hipaa_compliance:
+          required_features: ['advanced_security', 'advanced_user_management']
+          message: "HIPAA compliance requires advanced security and user management features. Consider adding these."
+        financial_compliance:
+          required_features: ['advanced_security', 'advanced_user_management', 'advanced_analytics']
+          message: "Financial compliance requires advanced security, user management, and analytics features. Consider adding these."
+        marketplace_platform:
+          required_features: ['payment_gateway', 'advanced_user_management', 'advanced_analytics']
+          message: "Marketplace platforms require payment processing, user management, and analytics. Consider adding these."
+        multi_tenant_saas:
+          required_features: ['advanced_user_management', 'advanced_security', 'performance_optimization']
+          message: "Multi-tenant SaaS platforms require advanced user management, security, and performance optimization. Consider adding these."
+
+    multipliers:
+      complexity:
+        normal: 1
+        medium: 1.5
+        high: 2
+        very_high: 3
+      speed:
+        normal: 1
+        tight: 1.25
+        urgent: 1.5
+      risk:
+        normal: 1
+        medium: 1.1
+        high: 1.25
+        very_high: 1.5
+      support:
+        normal: 1
+        medium: 1.25
+        high: 1.5
+      discover:
+        normal: 1.05
+        medium: 1.1
+        high: 1.2
+
+      # New multipliers for advanced features
+      compliance:
+        normal: 1.0
+        medium: 1.3
+        high: 1.6
+        very_high: 2.0
+      real_time:
+        normal: 1.0
+        medium: 1.2
+        high: 1.4
+        very_high: 1.8

@@ -1,0 +1,212 @@
+@import "tailwindcss";
+@source not "../../public";
+
+/* Custom form styling */
+.form-select {
+    @apply border border-gray-300 rounded-lg px-3 py-2 focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200 bg-white shadow-sm hover:shadow-md;
+}
+
+.form-input {
+    @apply border border-gray-300 rounded-lg px-3 py-2 focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200 bg-white shadow-sm hover:shadow-md;
+}
+
+/* Enhanced button styles */
+.btn-primary {
+    @apply bg-gradient-to-r from-blue-600 to-indigo-600 text-white px-6 py-3 rounded-xl font-semibold shadow-lg hover:shadow-xl transform hover:-translate-y-0.5 transition-all duration-200;
+}
+
+.btn-secondary {
+    @apply px-6 py-3 border border-gray-300 text-gray-700 rounded-xl font-medium hover:bg-gray-50 hover:border-gray-400 transition-all duration-200;
+}
+
+/* Card styles */
+.card {
+    @apply bg-white rounded-2xl shadow-xl border border-gray-100 overflow-hidden;
+}
+
+.card-header {
+    @apply bg-gradient-to-r from-blue-600 to-indigo-600 px-6 py-4;
+}
+
+/* Enhanced dialog styling */
+dialog {
+    border: none;
+    border-radius: 1rem;
+    box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+    padding: 0;
+    margin: auto;
+    max-width: 90vw;
+    max-height: 90vh;
+}
+
+dialog::backdrop {
+    background: rgba(0, 0, 0, 0.6);
+    backdrop-filter: blur(8px);
+}
+
+/* Ensure dialog is responsive */
+@media (max-width: 640px) {
+    dialog {
+        margin: 1rem;
+        max-width: calc(100vw - 2rem);
+        max-height: calc(100vh - 2rem);
+    }
+}
+
+/* Custom scrollbar */
+::-webkit-scrollbar {
+    width: 8px;
+}
+
+::-webkit-scrollbar-track {
+    background: #f1f5f9;
+    border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb {
+    background: #cbd5e1;
+    border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: #94a3b8;
+}
+
+/* Smooth transitions */
+* {
+    transition: all 0.2s ease-in-out;
+}
+
+/* Custom focus styles */
+.form-focus:focus {
+    outline: none;
+    ring: 2px;
+    ring-color: #3b82f6;
+    ring-offset: 2px;
+}
+
+/* Loading animation */
+@keyframes pulse {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.5; }
+}
+
+.animate-pulse {
+    animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+}
+
+/* Hover effects for interactive elements */
+.hover-lift {
+    @apply transition-all duration-200 hover:-translate-y-1 hover:shadow-lg;
+}
+
+/* Gradient text */
+.gradient-text {
+    @apply bg-gradient-to-r from-blue-600 to-indigo-600 bg-clip-text text-transparent;
+}
+
+/* Custom checkbox styling */
+input[type="checkbox"] {
+    @apply w-4 h-4 text-blue-600 border-gray-300 rounded focus:ring-blue-500 focus:ring-2;
+}
+
+/* Enhanced form field styling */
+.form-field {
+    @apply relative;
+}
+
+.form-field label {
+    @apply block text-sm font-medium text-gray-700 mb-2;
+}
+
+.form-field input,
+.form-field select {
+    @apply w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200 bg-white shadow-sm hover:shadow-md;
+}
+
+/* Feature card hover effects */
+.feature-card {
+    @apply flex items-start space-x-3 p-3 border border-gray-200 rounded-xl hover:border-blue-300 hover:shadow-md transition-all duration-200 cursor-pointer bg-white;
+}
+
+.feature-card:hover {
+    @apply transform -translate-y-1 shadow-lg;
+}
+
+/* Progress bar animations */
+.progress-bar {
+    @apply w-full bg-gray-200 rounded-full h-2 overflow-hidden;
+}
+
+.progress-fill {
+    @apply bg-gradient-to-r from-blue-500 to-indigo-500 h-2 rounded-full transition-all duration-500 ease-out;
+}
+
+/* Status indicators */
+.status-success {
+    @apply bg-green-100 text-green-800 border-green-200;
+}
+
+.status-warning {
+    @apply bg-yellow-100 text-yellow-800 border-yellow-200;
+}
+
+.status-info {
+    @apply bg-blue-100 text-blue-800 border-blue-200;
+}
+
+/* Responsive grid adjustments */
+@media (max-width: 1024px) {
+    .lg\:grid-cols-3 {
+        grid-template-columns: 1fr;
+    }
+
+    .lg\:col-span-2 {
+        grid-column: span 1;
+    }
+}
+
+/* Print styles */
+@media print {
+    .no-print {
+        display: none !important;
+    }
+
+    .print-break {
+        page-break-before: always;
+    }
+}
+
+/* Dark mode support (if needed in future) */
+@media (prefers-color-scheme: dark) {
+    .dark-mode {
+        @apply bg-gray-900 text-white;
+    }
+}
+
+/* Accessibility improvements */
+.sr-only {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border: 0;
+}
+
+/* Focus visible for keyboard navigation */
+.focus-visible:focus-visible {
+    @apply outline-none ring-2 ring-blue-500 ring-offset-2;
+}
+
+/* Reduced motion support */
+@media (prefers-reduced-motion: reduce) {
+    * {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+    }
+}
