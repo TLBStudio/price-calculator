@@ -34,6 +34,7 @@ class PricingEngine
      */
     /**
      * @phpstan-param array<string, string|array<string>|int|float|null> $input
+     *
      * @return array<string, mixed>
      */
     public function estimate(array $input): array

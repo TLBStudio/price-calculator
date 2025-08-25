@@ -42,6 +42,7 @@ class PaymentScheduleCalculator
      */
     /**
      * @phpstan-param array<string, int> $thresholds
+     *
      * @return list<array<string, float>>
      */
     private function determineScheduleType(float $totalHigh, array $thresholds): array
@@ -73,6 +74,7 @@ class PaymentScheduleCalculator
      */
     /**
      * @phpstan-param list<array<string, string|float>> $schedule
+     *
      * @return list<array<string, mixed>>
      */
     private function formatPaymentSchedule(float $totalLow, float $totalHigh, array $schedule): array

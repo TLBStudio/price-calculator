@@ -4,7 +4,7 @@ namespace App\Type;
 
 /**
  * Type definitions for pricing configuration arrays
- * This helps PHPStan understand the structure of our configuration arrays
+ * This helps PHPStan understand the structure of our configuration arrays.
  */
 class PricingConfiguration
 {

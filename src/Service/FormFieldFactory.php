@@ -127,6 +127,7 @@ class FormFieldFactory
      */
     /**
      * @phpstan-param array<string, array<string, string>> $items
+     *
      * @return array<string, string>
      */
     private function createTitleChoices(array $items): array
@@ -145,6 +146,7 @@ class FormFieldFactory
      */
     /**
      * @phpstan-param array<string, float> $items
+     *
      * @return array<string, string>
      */
     private function createMultiplierChoices(array $items): array

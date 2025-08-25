@@ -65,6 +65,7 @@ class PhaseCalculator
      */
     /**
      * @phpstan-param array<string, float> $phasePercentages
+     *
      * @return array<string, array<string, float>>
      */
     private function calculatePhaseCosts(float $totalLow, float $totalHigh, array $phasePercentages): array

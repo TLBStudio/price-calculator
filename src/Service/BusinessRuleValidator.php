@@ -18,6 +18,7 @@ class BusinessRuleValidator
      */
     /**
      * @phpstan-param array<string, string|array<string>|null> $data
+     *
      * @return list<string>
      */
     public function validateBusinessRules(array $data): array
@@ -70,6 +71,7 @@ class BusinessRuleValidator
      */
     /**
      * @phpstan-param array<string, string|array<string>|null> $data
+     *
      * @return list<array<string, mixed>>
      */
     public function getCompatibilityWarnings(array $data): array
@@ -104,6 +106,7 @@ class BusinessRuleValidator
      */
     /**
      * @phpstan-param array<string> $features
+     *
      * @return array<string, array<string>|string>
      */
     private function checkFeatureCompatibility(string $projectType, array $features): array
@@ -134,6 +137,7 @@ class BusinessRuleValidator
      */
     /**
      * @phpstan-param array<string> $features
+     *
      * @return list<array<string, array<string>|string>>
      */
     private function validateFeatureCombinations(array $features): array
