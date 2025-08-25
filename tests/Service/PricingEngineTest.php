@@ -12,7 +12,6 @@ use App\Service\SupportCalculator;
 use App\Exception\PricingConfigurationException;
 use PHPUnit\Framework\TestCase;
 use PHPUnit\Framework\Attributes\Test;
-use PHPUnit\Framework\MockObject\MockObject;
 
 class PricingEngineTest extends TestCase
 {
