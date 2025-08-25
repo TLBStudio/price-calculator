@@ -12,7 +12,7 @@ class SupportCalculator
     }
 
     /**
-     * Calculate support costs based on project size and factors
+     * Calculate support costs based on project size and factors.
      */
     public function calculateSupport(float $totalLow, float $supportFactor, float $complexityFactor): float
     {
@@ -27,7 +27,7 @@ class SupportCalculator
     }
 
     /**
-     * Get support coefficients from configuration
+     * Get support coefficients from configuration.
      */
     private function getSupportCoefficients(): array
     {
@@ -39,7 +39,7 @@ class SupportCalculator
     }
 
     /**
-     * Get support thresholds from configuration
+     * Get support thresholds from configuration.
      */
     private function getSupportThresholds(): array
     {
@@ -50,7 +50,7 @@ class SupportCalculator
     }
 
     /**
-     * Get maximum monthly support cost from configuration
+     * Get maximum monthly support cost from configuration.
      */
     private function getMaxMonthlySupport(): float
     {
@@ -58,7 +58,7 @@ class SupportCalculator
     }
 
     /**
-     * Determine support coefficient based on project size
+     * Determine support coefficient based on project size.
      */
     private function determineSupportCoefficient(float $totalLow, array $coefficients, array $thresholds): float
     {
@@ -72,17 +72,18 @@ class SupportCalculator
     }
 
     /**
-     * Calculate support cost with factors applied
+     * Calculate support cost with factors applied.
      */
     private function calculateSupportCost(float $totalLow, float $supportCoefficient, float $supportFactor, float $complexityFactor): float
     {
         // Apply support factor and complexity
         $supportCoefficient *= $supportFactor;
+
         return round(($totalLow * $supportCoefficient) * $complexityFactor);
     }
 
     /**
-     * Cap support cost at configured maximum
+     * Cap support cost at configured maximum.
      */
     private function capSupportCost(float $supportCost, float $maxMonthly): float
     {

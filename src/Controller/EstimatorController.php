@@ -3,17 +3,18 @@
 namespace App\Controller;
 
 use App\Form\EstimateType;
-use App\Service\PricingEngine;
 use App\Service\BusinessRuleValidator;
+use App\Service\PricingEngine;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 class EstimatorController extends AbstractController
 {
     public function __construct(
-        private BusinessRuleValidator $businessRuleValidator
-    ) {}
+        private BusinessRuleValidator $businessRuleValidator,
+    ) {
+    }
 
     #[Route('/', name: 'estimate')]
     public function index(Request $request, PricingEngine $engine)
@@ -58,9 +59,8 @@ class EstimatorController extends AbstractController
                         }
                     }
                 }
-
             } catch (\Exception $e) {
-                $errors[] = 'Error generating estimate: ' . $e->getMessage();
+                $errors[] = 'Error generating estimate: '.$e->getMessage();
                 $this->addFlash('error', 'Unable to generate estimate. Please check your inputs and try again.');
             }
         } elseif ($form->isSubmitted() && !$form->isValid()) {
@@ -78,7 +78,7 @@ class EstimatorController extends AbstractController
             'input' => $inputData,
             'config' => $this->getParameter('pricing'),
             'errors' => $errors,
-            'warnings' => $warnings
+            'warnings' => $warnings,
         ]);
     }
 }

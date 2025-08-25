@@ -12,7 +12,7 @@ class BusinessRuleValidator
     }
 
     /**
-     * Validates business rules beyond basic form validation
+     * Validates business rules beyond basic form validation.
      */
     public function validateBusinessRules(array $data): array
     {
@@ -28,21 +28,21 @@ class BusinessRuleValidator
 
         // Check for unrealistic complexity combinations
         if (isset($data['complexity']) && isset($data['speed'])) {
-            if ($data['complexity'] === 'very_high' && $data['speed'] === 'urgent') {
+            if ('very_high' === $data['complexity'] && 'urgent' === $data['speed']) {
                 $warnings[] = 'Very high complexity with urgent timeline may not be realistic. Consider extending the timeline or reducing complexity.';
             }
         }
 
         // Check for high-risk combinations
         if (isset($data['risk']) && isset($data['support'])) {
-            if ($data['risk'] === 'very_high' && $data['support'] === 'high') {
+            if ('very_high' === $data['risk'] && 'high' === $data['support']) {
                 $warnings[] = 'Very high risk with high support requirements may significantly impact long-term costs.';
             }
         }
 
         // Check for compliance and real-time combinations
         if (isset($data['compliance']) && isset($data['realTime'])) {
-            if ($data['compliance'] === 'very_high' && $data['realTime'] === 'very_high') {
+            if ('very_high' === $data['compliance'] && 'very_high' === $data['realTime']) {
                 $warnings[] = 'Very high compliance requirements with very high real-time requirements may significantly increase project complexity and cost.';
             }
         }
@@ -59,7 +59,7 @@ class BusinessRuleValidator
     }
 
     /**
-     * Get compatibility warnings for display in frontend
+     * Get compatibility warnings for display in frontend.
      */
     public function getCompatibilityWarnings(array $data): array
     {
@@ -71,7 +71,7 @@ class BusinessRuleValidator
                 $warnings[] = [
                     'type' => 'incompatibility',
                     'message' => $compatibilityIssues['message'],
-                    'incompatible_features' => $compatibilityIssues['incompatible']
+                    'incompatible_features' => $compatibilityIssues['incompatible'],
                 ];
             }
         }
@@ -89,7 +89,7 @@ class BusinessRuleValidator
     }
 
     /**
-     * Check if selected features are compatible with the project type
+     * Check if selected features are compatible with the project type.
      */
     private function checkFeatureCompatibility(string $projectType, array $features): array
     {
@@ -110,12 +110,12 @@ class BusinessRuleValidator
 
         return [
             'incompatible' => $incompatible,
-            'message' => $message
+            'message' => $message,
         ];
     }
 
     /**
-     * Validate feature combinations for logical consistency
+     * Validate feature combinations for logical consistency.
      */
     private function validateFeatureCombinations(array $features): array
     {
@@ -132,7 +132,7 @@ class BusinessRuleValidator
                         $allIssues[] = [
                             'type' => 'conflict',
                             'message' => $rule['message'],
-                            'conflicting_features' => array_values($selectedConflictingFeatures)
+                            'conflicting_features' => array_values($selectedConflictingFeatures),
                         ];
                     }
                 }
@@ -151,7 +151,7 @@ class BusinessRuleValidator
                             $allIssues[] = [
                                 'type' => 'dependency',
                                 'message' => $rule['message'],
-                                'incompatible_features' => array_values($missingFeatures)
+                                'incompatible_features' => array_values($missingFeatures),
                             ];
                         }
                     }

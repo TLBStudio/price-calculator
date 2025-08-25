@@ -3,8 +3,8 @@
 namespace App\Tests\Service;
 
 use App\Service\BusinessRuleValidator;
-use PHPUnit\Framework\TestCase;
 use PHPUnit\Framework\Attributes\Test;
+use PHPUnit\Framework\TestCase;
 
 class BusinessRuleValidatorTest extends TestCase
 {
@@ -17,34 +17,34 @@ class BusinessRuleValidatorTest extends TestCase
                 'project_type_incompatibilities' => [
                     'mobile_app' => [
                         'incompatible_features' => ['desktop_only_feature'],
-                        'message' => 'Mobile apps cannot use desktop-only features.'
+                        'message' => 'Mobile apps cannot use desktop-only features.',
                     ],
                     'api' => [
                         'incompatible_features' => ['ui_heavy_feature'],
-                        'message' => 'APIs should not include UI-heavy features.'
-                    ]
+                        'message' => 'APIs should not include UI-heavy features.',
+                    ],
                 ],
                 'feature_incompatibilities' => [
                     'conflict_1' => [
                         'conflicting_features' => ['feature_a', 'feature_b'],
-                        'message' => 'Feature A and Feature B cannot be used together.'
+                        'message' => 'Feature A and Feature B cannot be used together.',
                     ],
                     'conflict_2' => [
                         'conflicting_features' => ['feature_x', 'feature_y', 'feature_z'],
-                        'message' => 'Features X, Y, and Z are mutually exclusive.'
-                    ]
+                        'message' => 'Features X, Y, and Z are mutually exclusive.',
+                    ],
                 ],
                 'feature_dependencies' => [
                     'advanced_reporting' => [
                         'required_features' => ['basic_reporting'],
-                        'message' => 'Advanced reporting requires basic reporting to be enabled.'
+                        'message' => 'Advanced reporting requires basic reporting to be enabled.',
                     ],
                     'payment_processing' => [
                         'required_features' => ['authentication'],
-                        'message' => 'Payment processing requires authentication to be enabled.'
-                    ]
-                ]
-            ]
+                        'message' => 'Payment processing requires authentication to be enabled.',
+                    ],
+                ],
+            ],
         ];
     }
 
@@ -68,7 +68,7 @@ class BusinessRuleValidatorTest extends TestCase
             'complexity' => 'medium',
             'speed' => 'normal',
             'risk' => 'low',
-            'support' => 'low'
+            'support' => 'low',
         ];
 
         $warnings = $validator->validateBusinessRules($data);
@@ -84,7 +84,7 @@ class BusinessRuleValidatorTest extends TestCase
         $data = [
             'projectType' => 'web_app',
             'complexity' => 'very_high',
-            'speed' => 'urgent'
+            'speed' => 'urgent',
         ];
 
         $warnings = $validator->validateBusinessRules($data);
@@ -101,7 +101,7 @@ class BusinessRuleValidatorTest extends TestCase
         $data = [
             'projectType' => 'web_app',
             'risk' => 'very_high',
-            'support' => 'high'
+            'support' => 'high',
         ];
 
         $warnings = $validator->validateBusinessRules($data);
@@ -118,7 +118,7 @@ class BusinessRuleValidatorTest extends TestCase
         $data = [
             'projectType' => 'web_app',
             'compliance' => 'very_high',
-            'realTime' => 'very_high'
+            'realTime' => 'very_high',
         ];
 
         $warnings = $validator->validateBusinessRules($data);
@@ -134,7 +134,7 @@ class BusinessRuleValidatorTest extends TestCase
 
         $data = [
             'projectType' => 'mobile_app',
-            'features' => ['desktop_only_feature', 'authentication']
+            'features' => ['desktop_only_feature', 'authentication'],
         ];
 
         $warnings = $validator->getCompatibilityWarnings($data);
@@ -152,7 +152,7 @@ class BusinessRuleValidatorTest extends TestCase
 
         $data = [
             'projectType' => 'web_app',
-            'features' => ['feature_a', 'feature_b', 'authentication']
+            'features' => ['feature_a', 'feature_b', 'authentication'],
         ];
 
         $warnings = $validator->getCompatibilityWarnings($data);
@@ -170,7 +170,7 @@ class BusinessRuleValidatorTest extends TestCase
 
         $data = [
             'projectType' => 'web_app',
-            'features' => ['advanced_reporting'] // Missing required 'basic_reporting'
+            'features' => ['advanced_reporting'], // Missing required 'basic_reporting'
         ];
 
         $warnings = $validator->getCompatibilityWarnings($data);
@@ -188,7 +188,7 @@ class BusinessRuleValidatorTest extends TestCase
 
         $data = [
             'projectType' => 'mobile_app',
-            'features' => ['desktop_only_feature', 'feature_a', 'feature_b']
+            'features' => ['desktop_only_feature', 'feature_a', 'feature_b'],
         ];
 
         $warnings = $validator->getCompatibilityWarnings($data);
@@ -197,11 +197,11 @@ class BusinessRuleValidatorTest extends TestCase
         $this->assertCount(2, $warnings);
 
         // Check project type incompatibility
-        $incompatibilityWarning = array_filter($warnings, fn($w) => $w['type'] === 'incompatibility');
+        $incompatibilityWarning = array_filter($warnings, fn ($w) => 'incompatibility' === $w['type']);
         $this->assertCount(1, $incompatibilityWarning);
 
         // Check feature conflict
-        $conflictWarning = array_filter($warnings, fn($w) => $w['type'] === 'conflict');
+        $conflictWarning = array_filter($warnings, fn ($w) => 'conflict' === $w['type']);
         $this->assertCount(1, $conflictWarning);
     }
 
@@ -212,7 +212,7 @@ class BusinessRuleValidatorTest extends TestCase
 
         $data = [
             'projectType' => 'web_app',
-            'features' => ['authentication', 'basic_reporting']
+            'features' => ['authentication', 'basic_reporting'],
         ];
 
         $warnings = $validator->getCompatibilityWarnings($data);
@@ -226,7 +226,7 @@ class BusinessRuleValidatorTest extends TestCase
         $validator = new BusinessRuleValidator($this->pricingConfig);
 
         $data = [
-            'projectType' => 'web_app'
+            'projectType' => 'web_app',
             // No features specified
         ];
 
@@ -241,7 +241,7 @@ class BusinessRuleValidatorTest extends TestCase
         $validator = new BusinessRuleValidator($this->pricingConfig);
 
         $data = [
-            'projectType' => 'web_app'
+            'projectType' => 'web_app',
             // Minimal data
         ];
 
@@ -257,7 +257,7 @@ class BusinessRuleValidatorTest extends TestCase
 
         $data = [
             'projectType' => 'web_app',
-            'complexity' => 'very_high'
+            'complexity' => 'very_high',
             // Missing speed, so no conflict should be detected
         ];
 
@@ -273,7 +273,7 @@ class BusinessRuleValidatorTest extends TestCase
 
         $data = [
             'projectType' => 'web_app',
-            'features' => ['feature_x', 'feature_y', 'feature_z']
+            'features' => ['feature_x', 'feature_y', 'feature_z'],
         ];
 
         $warnings = $validator->getCompatibilityWarnings($data);
@@ -291,7 +291,7 @@ class BusinessRuleValidatorTest extends TestCase
 
         $data = [
             'projectType' => 'web_app',
-            'features' => ['authentication', 'basic_reporting'] // These features have no conflicts
+            'features' => ['authentication', 'basic_reporting'], // These features have no conflicts
         ];
 
         $warnings = $validator->getCompatibilityWarnings($data);

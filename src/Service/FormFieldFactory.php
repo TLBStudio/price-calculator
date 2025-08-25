@@ -2,9 +2,9 @@
 
 namespace App\Service;
 
-use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\IntegerType;
+use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Validator\Constraints as Assert;
 
 class FormFieldFactory
@@ -17,26 +17,26 @@ class FormFieldFactory
     }
 
     /**
-     * Add a choice field with standard configuration
+     * Add a choice field with standard configuration.
      */
     public function addChoiceField(
         FormBuilderInterface $builder,
         string $fieldName,
         string $label,
         string $configKey,
-        string $placeholder = null,
-        array $additionalConstraints = []
+        ?string $placeholder = null,
+        array $additionalConstraints = [],
     ): void {
         $choices = $this->createMultiplierChoices($this->pricingConfig['multipliers'][$configKey]);
 
         $constraints = array_merge([
             new Assert\NotBlank([
-                'message' => sprintf('Please select a %s.', strtolower($label))
+                'message' => sprintf('Please select a %s.', strtolower($label)),
             ]),
             new Assert\Choice([
                 'choices' => array_values($choices),
-                'message' => sprintf('Please select a valid %s.', strtolower($label))
-            ])
+                'message' => sprintf('Please select a valid %s.', strtolower($label)),
+            ]),
         ], $additionalConstraints);
 
         $builder->add($fieldName, ChoiceType::class, [
@@ -45,13 +45,13 @@ class FormFieldFactory
             'placeholder' => $placeholder,
             'constraints' => $constraints,
             'attr' => [
-                'class' => 'form-select'
-            ]
+                'class' => 'form-select',
+            ],
         ]);
     }
 
     /**
-     * Add a project type field
+     * Add a project type field.
      */
     public function addProjectTypeField(FormBuilderInterface $builder): void
     {
@@ -62,21 +62,21 @@ class FormFieldFactory
             'placeholder' => 'Select a project type',
             'constraints' => [
                 new Assert\NotBlank([
-                    'message' => 'Please select a project type to continue.'
+                    'message' => 'Please select a project type to continue.',
                 ]),
                 new Assert\Choice([
                     'choices' => array_values($choices),
-                    'message' => 'Please select a valid project type.'
-                ])
+                    'message' => 'Please select a valid project type.',
+                ]),
             ],
             'attr' => [
-                'class' => 'form-select'
-            ]
+                'class' => 'form-select',
+            ],
         ]);
     }
 
     /**
-     * Add a features field
+     * Add a features field.
      */
     public function addFeaturesField(FormBuilderInterface $builder): void
     {
@@ -89,13 +89,13 @@ class FormFieldFactory
             'expanded' => true,
             'required' => false,
             'attr' => [
-                'class' => 'features-checkboxes'
-            ]
+                'class' => 'features-checkboxes',
+            ],
         ]);
     }
 
     /**
-     * Add a bundles field
+     * Add a bundles field.
      */
     public function addBundlesField(FormBuilderInterface $builder): void
     {
@@ -107,20 +107,20 @@ class FormFieldFactory
                 'min' => 0,
                 'max' => $this->pricingConfig['bundles']['max_quantity'] ?? 50,
                 'placeholder' => '0',
-                'title' => $this->pricingConfig['bundles']['description'] ?? 'Each bundle adds 0.5 days'
+                'title' => $this->pricingConfig['bundles']['description'] ?? 'Each bundle adds 0.5 days',
             ],
             'constraints' => [
                 new Assert\Range([
                     'min' => 0,
                     'max' => $this->pricingConfig['bundles']['max_quantity'] ?? 50,
-                    'notInRangeMessage' => 'Bundle quantity must be between {{ min }} and {{ max }}'
-                ])
-            ]
+                    'notInRangeMessage' => 'Bundle quantity must be between {{ min }} and {{ max }}',
+                ]),
+            ],
         ]);
     }
 
     /**
-     * Create choices with titles for display
+     * Create choices with titles for display.
      */
     private function createTitleChoices(array $items): array
     {
@@ -129,11 +129,12 @@ class FormFieldFactory
             $displayText = $item['title'] ?? $key;
             $choices[$this->formatLabel($displayText)] = $key;
         }
+
         return $choices;
     }
 
     /**
-     * Create choices for multiplier fields
+     * Create choices for multiplier fields.
      */
     private function createMultiplierChoices(array $multipliers): array
     {
@@ -141,11 +142,12 @@ class FormFieldFactory
         foreach ($multipliers as $key => $value) {
             $choices[$this->formatLabel($key)] = $key;
         }
+
         return $choices;
     }
 
     /**
-     * Format a label to title case and replace underscores with spaces
+     * Format a label to title case and replace underscores with spaces.
      */
     private function formatLabel(string $label): string
     {

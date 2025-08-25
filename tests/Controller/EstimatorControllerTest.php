@@ -5,8 +5,8 @@ namespace App\Tests\Controller;
 use App\Controller\EstimatorController;
 use App\Service\BusinessRuleValidator;
 use App\Service\PricingEngine;
-use PHPUnit\Framework\TestCase;
 use PHPUnit\Framework\Attributes\Test;
+use PHPUnit\Framework\TestCase;
 
 class EstimatorControllerTest extends TestCase
 {

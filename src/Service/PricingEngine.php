@@ -3,12 +3,6 @@
 namespace App\Service;
 
 use App\Exception\PricingConfigurationException;
-use App\Service\PricingConfigurationValidator;
-use App\Service\EstimateInputValidator;
-use App\Service\PricingCalculator;
-use App\Service\PhaseCalculator;
-use App\Service\PaymentScheduleCalculator;
-use App\Service\SupportCalculator;
 
 class PricingEngine
 {
@@ -19,13 +13,13 @@ class PricingEngine
         private PhaseCalculator $phaseCalculator,
         private PaymentScheduleCalculator $paymentCalculator,
         private SupportCalculator $supportCalculator,
-        private array $pricingConfig
+        private array $pricingConfig,
     ) {
         $this->validateConfiguration();
     }
 
     /**
-     * Validates the pricing configuration for required fields and valid values
+     * Validates the pricing configuration for required fields and valid values.
      *
      * @throws PricingConfigurationException
      */
@@ -35,7 +29,7 @@ class PricingEngine
     }
 
     /**
-     * Generate a complete project estimate
+     * Generate a complete project estimate.
      */
     public function estimate(array $input): array
     {

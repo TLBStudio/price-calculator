@@ -7,7 +7,7 @@ use App\Exception\PricingConfigurationException;
 class PricingConfigurationValidator
 {
     /**
-     * Validates the complete pricing configuration
+     * Validates the complete pricing configuration.
      *
      * @throws PricingConfigurationException
      */
@@ -24,7 +24,7 @@ class PricingConfigurationValidator
     }
 
     /**
-     * Validates required top-level configuration
+     * Validates required top-level configuration.
      */
     private function validateRequiredConfiguration(array $pricingConfig): void
     {
@@ -38,7 +38,7 @@ class PricingConfigurationValidator
     }
 
     /**
-     * Validates day rate configuration
+     * Validates day rate configuration.
      */
     private function validateDayRates(array $pricingConfig): void
     {
@@ -60,7 +60,7 @@ class PricingConfigurationValidator
     }
 
     /**
-     * Validates percentage-based configurations
+     * Validates percentage-based configurations.
      */
     private function validatePercentages(array $pricingConfig): void
     {
@@ -69,7 +69,7 @@ class PricingConfigurationValidator
     }
 
     /**
-     * Validates calibration factor
+     * Validates calibration factor.
      */
     private function validateCalibrationFactor(array $pricingConfig): void
     {
@@ -79,7 +79,7 @@ class PricingConfigurationValidator
     }
 
     /**
-     * Validates multiplier configurations
+     * Validates multiplier configurations.
      */
     private function validateMultipliers(array $pricingConfig): void
     {
@@ -99,7 +99,7 @@ class PricingConfigurationValidator
     }
 
     /**
-     * Validates project type configurations
+     * Validates project type configurations.
      */
     private function validateProjectTypes(array $pricingConfig): void
     {
@@ -119,7 +119,7 @@ class PricingConfigurationValidator
     }
 
     /**
-     * Validates feature configurations
+     * Validates feature configurations.
      */
     private function validateFeatures(array $pricingConfig): void
     {
@@ -139,7 +139,7 @@ class PricingConfigurationValidator
     }
 
     /**
-     * Validates optional configurations if present
+     * Validates optional configurations if present.
      */
     private function validateOptionalConfigurations(array $pricingConfig): void
     {
@@ -149,7 +149,7 @@ class PricingConfigurationValidator
     }
 
     /**
-     * Validates phase configuration
+     * Validates phase configuration.
      */
     private function validatePhaseConfiguration(array $pricingConfig): void
     {
@@ -168,7 +168,7 @@ class PricingConfigurationValidator
     }
 
     /**
-     * Validates payment schedule configuration
+     * Validates payment schedule configuration.
      */
     private function validatePaymentScheduleConfiguration(array $pricingConfig): void
     {
@@ -191,7 +191,7 @@ class PricingConfigurationValidator
     }
 
     /**
-     * Validates payment thresholds
+     * Validates payment thresholds.
      */
     private function validatePaymentThresholds(array $thresholds): void
     {
@@ -205,7 +205,7 @@ class PricingConfigurationValidator
     }
 
     /**
-     * Validates a schedule definition
+     * Validates a schedule definition.
      */
     private function validateScheduleDefinition(string $type, array $schedule): void
     {
@@ -220,7 +220,7 @@ class PricingConfigurationValidator
     }
 
     /**
-     * Validates support configuration
+     * Validates support configuration.
      */
     private function validateSupportConfiguration(array $pricingConfig): void
     {
@@ -249,7 +249,7 @@ class PricingConfigurationValidator
     }
 
     /**
-     * Validates a percentage value
+     * Validates a percentage value.
      */
     private function validatePercentage(string $configKey, mixed $value): void
     {
@@ -259,11 +259,11 @@ class PricingConfigurationValidator
     }
 
     /**
-     * Validates a support threshold value
+     * Validates a support threshold value.
      */
     private function validateSupportThreshold(string $threshold, mixed $value): void
     {
-        if ($value === null) {
+        if (null === $value) {
             return; // Optional threshold
         }
 

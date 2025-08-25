@@ -12,16 +12,17 @@ class PhaseCalculator
     }
 
     /**
-     * Calculate phase breakdown for a project
+     * Calculate phase breakdown for a project.
      */
     public function calculatePhases(float $totalLow, float $totalHigh, float $discoveryFactor): array
     {
         $phasePercentages = $this->calculatePhasePercentages($discoveryFactor);
+
         return $this->calculatePhaseCosts($totalLow, $totalHigh, $phasePercentages);
     }
 
     /**
-     * Calculate phase percentages based on discovery factor
+     * Calculate phase percentages based on discovery factor.
      */
     private function calculatePhasePercentages(float $discoveryFactor): array
     {
@@ -56,7 +57,7 @@ class PhaseCalculator
     }
 
     /**
-     * Calculate actual costs for each phase
+     * Calculate actual costs for each phase.
      */
     private function calculatePhaseCosts(float $totalLow, float $totalHigh, array $phasePercentages): array
     {

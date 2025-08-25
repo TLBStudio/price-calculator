@@ -2,10 +2,10 @@
 
 namespace App\Form;
 
+use App\Service\FormFieldFactory;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
-use App\Service\FormFieldFactory;
 
 class EstimateType extends AbstractType
 {
@@ -55,18 +55,14 @@ class EstimateType extends AbstractType
         $fieldFactory->addBundlesField($builder);
     }
 
-
-
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults([
             'data_class' => null, // Allow array data
             'attr' => [
                 'class' => 'estimate-form',
-                'novalidate' => 'novalidate' // We'll handle validation with JavaScript
-            ]
+                'novalidate' => 'novalidate', // We'll handle validation with JavaScript
+            ],
         ]);
     }
-
-
 }

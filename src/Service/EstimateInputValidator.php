@@ -14,7 +14,7 @@ class EstimateInputValidator
     }
 
     /**
-     * Validates input data for estimation
+     * Validates input data for estimation.
      *
      * @throws PricingConfigurationException
      */
@@ -28,7 +28,7 @@ class EstimateInputValidator
     }
 
     /**
-     * Validates project type
+     * Validates project type.
      */
     private function validateProjectType(array $input): void
     {
@@ -42,7 +42,7 @@ class EstimateInputValidator
     }
 
     /**
-     * Validates features
+     * Validates features.
      */
     private function validateFeatures(array $input): void
     {
@@ -56,7 +56,7 @@ class EstimateInputValidator
     }
 
     /**
-     * Validates bundles
+     * Validates bundles.
      */
     private function validateBundles(array $input): void
     {
@@ -75,7 +75,7 @@ class EstimateInputValidator
     }
 
     /**
-     * Validates required multipliers
+     * Validates required multipliers.
      */
     private function validateRequiredMultipliers(array $input): void
     {
@@ -94,7 +94,7 @@ class EstimateInputValidator
     }
 
     /**
-     * Validates optional multipliers
+     * Validates optional multipliers.
      */
     private function validateOptionalMultipliers(array $input): void
     {
@@ -102,7 +102,7 @@ class EstimateInputValidator
 
         foreach ($optionalMultipliers as $multiplier) {
             if (isset($input[$multiplier])) {
-                $configKey = $multiplier === 'realTime' ? 'real_time' : $multiplier;
+                $configKey = 'realTime' === $multiplier ? 'real_time' : $multiplier;
                 if (!isset($this->pricingConfig['multipliers'][$configKey][$input[$multiplier]])) {
                     throw PricingConfigurationException::invalidMultiplier($multiplier, $input[$multiplier], 'invalid value');
                 }

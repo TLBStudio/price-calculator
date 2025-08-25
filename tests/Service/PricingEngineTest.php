@@ -2,16 +2,16 @@
 
 namespace App\Tests\Service;
 
-use App\Service\PricingEngine;
-use App\Service\PricingConfigurationValidator;
-use App\Service\EstimateInputValidator;
-use App\Service\PricingCalculator;
-use App\Service\PhaseCalculator;
-use App\Service\PaymentScheduleCalculator;
-use App\Service\SupportCalculator;
 use App\Exception\PricingConfigurationException;
-use PHPUnit\Framework\TestCase;
+use App\Service\EstimateInputValidator;
+use App\Service\PaymentScheduleCalculator;
+use App\Service\PhaseCalculator;
+use App\Service\PricingCalculator;
+use App\Service\PricingConfigurationValidator;
+use App\Service\PricingEngine;
+use App\Service\SupportCalculator;
 use PHPUnit\Framework\Attributes\Test;
+use PHPUnit\Framework\TestCase;
 
 class PricingEngineTest extends TestCase
 {

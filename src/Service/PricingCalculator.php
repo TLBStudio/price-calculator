@@ -16,7 +16,7 @@ class PricingCalculator
     }
 
     /**
-     * Initialize calculation factors
+     * Initialize calculation factors.
      */
     private function initializeFactors(): void
     {
@@ -28,7 +28,7 @@ class PricingCalculator
     }
 
     /**
-     * Initialize day rates
+     * Initialize day rates.
      */
     private function initializeRates(): void
     {
@@ -39,7 +39,7 @@ class PricingCalculator
     }
 
     /**
-     * Calculate project days based on input
+     * Calculate project days based on input.
      */
     public function calculateDays(array $input): float
     {
@@ -51,7 +51,7 @@ class PricingCalculator
     }
 
     /**
-     * Calculate base days from project type and features
+     * Calculate base days from project type and features.
      */
     private function calculateBaseDays(array $input): float
     {
@@ -73,7 +73,7 @@ class PricingCalculator
     }
 
     /**
-     * Apply all multipliers to the base days
+     * Apply all multipliers to the base days.
      */
     private function applyMultipliers(float $days, array $input): float
     {
@@ -110,7 +110,7 @@ class PricingCalculator
     }
 
     /**
-     * Apply calibration factor
+     * Apply calibration factor.
      */
     private function applyCalibrationFactor(float $days): float
     {
@@ -118,7 +118,7 @@ class PricingCalculator
     }
 
     /**
-     * Calculate pricing estimates
+     * Calculate pricing estimates.
      */
     public function calculatePricing(float $days): array
     {
@@ -132,7 +132,7 @@ class PricingCalculator
     }
 
     /**
-     * Calculate low estimate
+     * Calculate low estimate.
      */
     private function calculateLowEstimate(float $days): float
     {
@@ -145,7 +145,7 @@ class PricingCalculator
     }
 
     /**
-     * Calculate high estimate
+     * Calculate high estimate.
      */
     private function calculateHighEstimate(float $days): float
     {
@@ -158,7 +158,7 @@ class PricingCalculator
     }
 
     /**
-     * Apply project management factor
+     * Apply project management factor.
      */
     private function applyProjectManagementFactor(float $estimate): float
     {
@@ -166,7 +166,7 @@ class PricingCalculator
     }
 
     /**
-     * Apply discovery factor
+     * Apply discovery factor.
      */
     private function applyDiscoveryFactor(float $estimate): float
     {
@@ -174,7 +174,7 @@ class PricingCalculator
     }
 
     /**
-     * Apply contingency factor
+     * Apply contingency factor.
      */
     private function applyContingencyFactor(float $estimate): float
     {
@@ -182,7 +182,7 @@ class PricingCalculator
     }
 
     /**
-     * Get factors for use in other calculations
+     * Get factors for use in other calculations.
      */
     public function getFactors(): array
     {

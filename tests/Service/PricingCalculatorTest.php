@@ -3,8 +3,8 @@
 namespace App\Tests\Service;
 
 use App\Service\PricingCalculator;
-use PHPUnit\Framework\TestCase;
 use PHPUnit\Framework\Attributes\Test;
+use PHPUnit\Framework\TestCase;
 
 class PricingCalculatorTest extends TestCase
 {
