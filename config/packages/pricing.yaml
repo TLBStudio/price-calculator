@@ -153,6 +153,62 @@ parameters:
         description: "Multi-vendor marketplace connecting buyers and sellers with transaction management."
 
     features:
+      accessibility:
+        days: 5
+        title: "Accessibility compliance"
+        description: "WCAG AA/AAA accessibility compliance."
+      accessibility_advanced:
+        days: 8
+        title: "Advanced Accessibility"
+        description: "WCAG AAA compliance, screen reader optimization, keyboard navigation, color contrast, assistive technology support."
+      advanced_analytics:
+        days: 4
+        title: "Advanced Analytics & Insights"
+        description: "Custom dashboards, user behavior tracking, conversion funnels, A/B testing, predictive analytics."
+      advanced_content_management:
+        days: 6
+        title: "Advanced Content Management"
+        description: "Workflow approvals, version control, content scheduling, multi-user editing, content templates."
+      advanced_search_filtering:
+        days: 4
+        title: "Advanced Search & Filtering"
+        description: "Elasticsearch integration, faceted search, autocomplete, search analytics, advanced filters."
+      advanced_security:
+        days: 4
+        title: "Advanced Security & Compliance"
+        description: "Two-factor authentication, GDPR compliance, SOC2 preparation, advanced encryption, security audits."
+      advanced_user_management:
+        days: 5
+        title: "Advanced User Management"
+        description: "Role-based access control, user groups, permissions, audit logging, user lifecycle management."
+      ai_ml_features:
+        days: 12
+        title: "AI & Machine Learning"
+        description: "Chatbots, recommendation systems, predictive analytics, natural language processing, automated insights."
+      analytics_setup:
+        days: 0.5
+        title: "Analytics & Tracking"
+        description: "Integrate Google Analytics, Tag Manager, or other tracking tools."
+      api_development:
+        days: 5
+        title: "API development"
+        description: "REST API for external clients or mobile apps."
+      blockchain_integration:
+        days: 10
+        title: "Blockchain Integration"
+        description: "Smart contracts, cryptocurrency payments, decentralized identity, blockchain verification, wallet integration."
+      cms:
+        days: 8
+        title: "CMS integration / Custom CMS"
+        description: "Integration of CMS or custom-built content management system."
+      content_personalization:
+        days: 7
+        title: "Content Personalization"
+        description: "User segmentation, dynamic content, recommendation engines, behavioral targeting, personalized experiences."
+      dashboard_reporting:
+        days: 5
+        title: "Dashboard & Reporting"
+        description: "Admin dashboards and reporting tools."
       design_one:
         days: 1
         title: "Design: 1 day"
@@ -165,18 +221,58 @@ parameters:
         days: 5
         title: "Design: 5 days"
         description: "Standalone cost - design already included in site costs."
-      auth_roles:
+      devops_hosting:
         days: 3
-        title: "Auth & Roles"
-        description: "User authentication and permission roles."
-      cms:
-        days: 8
-        title: "CMS integration / Custom CMS"
-        description: "Integration of CMS or custom-built content management system."
+        title: "DevOps / Hosting"
+        description: "CI/CD, Docker, server setup or scaling. Not standard hosting."
       ecommerce_features:
         days: 13
         title: "Ecommerce features"
         description: "Cart, checkout, discounts, inventory management."
+      financial_compliance:
+        days: 5
+        title: "Financial Compliance"
+        description: "PCI DSS compliance, KYC verification, AML monitoring, regulatory reporting, secure transactions."
+      hipaa_compliance:
+        days: 6
+        title: "HIPAA Compliance"
+        description: "Healthcare data security, patient privacy protection, audit trails, compliance reporting, secure messaging."
+      integration_hub:
+        days: 6
+        title: "Integration Hub"
+        description: "Centralized API management, webhook system, data synchronization, custom integrations, integration monitoring."
+      marketing_automation:
+        days: 2
+        title: "Marketing Automation"
+        description: "Email automation, workflows, and triggers."
+      mobile_app_features:
+        days: 8
+        title: "Mobile App Features"
+        description: "Native mobile app development, push notifications, offline sync, app store optimization, mobile-specific UI."
+      multi_language:
+        days: 3
+        title: "Multi-language"
+        description: "Multi-language or localization support."
+      multilingual_advanced:
+        days: 6
+        title: "Advanced Multilingual Support"
+        description: "RTL language support, cultural localization, currency conversion, timezone handling, regional compliance."
+      payment_gateway:
+        days: 2
+        title: "Payment gateway"
+        description: "Stripe, PayPal, or other payment provider integration."
+      performance_optimization:
+        days: 3
+        title: "Performance Optimization"
+        description: "CDN setup, image optimization, caching strategies, performance monitoring, Core Web Vitals optimization."
+      real_time_notifications:
+        days: 3
+        title: "Real-time Notifications"
+        description: "Push notifications, email alerts, SMS integration, in-app notifications, notification preferences."
+      seo:
+        days: 2
+        title: "SEO Research & Competitor Analysis"
+        description: "Comprehensive keyword research and competitor analysis to identify ranking opportunities, content gaps, and strategic insights that boost your organic search performance and outrank competitors."
       third_party_integration_simple:
         days: 2
         title: "Third party integration (simple)"
@@ -185,112 +281,6 @@ parameters:
         days: 9
         title: "Third party integration (complex)"
         description: "Hubspot, Salesforce, Zendesk. Requires custom development."
-      payment_gateway:
-        days: 2
-        title: "Payment gateway"
-        description: "Stripe, PayPal, or other payment provider integration."
-      dashboard_reporting:
-        days: 5
-        title: "Dashboard & Reporting"
-        description: "Admin dashboards and reporting tools."
-      multi_language:
-        days: 3
-        title: "Multi-language"
-        description: "Multi-language or localization support."
-      accessibility:
-        days: 5
-        title: "Accessibility compliance"
-        description: "WCAG AA/AAA accessibility compliance."
-      api_development:
-        days: 5
-        title: "API development"
-        description: "REST API for external clients or mobile apps."
-      devops_hosting:
-        days: 3
-        title: "DevOps / Hosting"
-        description: "CI/CD, Docker, server setup or scaling. Not standard hosting."
-
-      # Merged Add-ons
-      seo:
-        days: 2
-        title: "SEO Research & Competitor Analysis"
-        description: "Comprehensive keyword research and competitor analysis to identify ranking opportunities, content gaps, and strategic insights that boost your organic search performance and outrank competitors."
-      analytics_setup:
-        days: 0.5
-        title: "Analytics & Tracking"
-        description: "Integrate Google Analytics, Tag Manager, or other tracking tools."
-      marketing_automation:
-        days: 2
-        title: "Marketing Automation"
-        description: "Email automation, workflows, and triggers."
-
-      # Advanced Features
-      advanced_security:
-        days: 4
-        title: "Advanced Security & Compliance"
-        description: "Two-factor authentication, GDPR compliance, SOC2 preparation, advanced encryption, security audits."
-      real_time_notifications:
-        days: 3
-        title: "Real-time Notifications"
-        description: "Push notifications, email alerts, SMS integration, in-app notifications, notification preferences."
-      advanced_search_filtering:
-        days: 4
-        title: "Advanced Search & Filtering"
-        description: "Elasticsearch integration, faceted search, autocomplete, search analytics, advanced filters."
-      content_management_advanced:
-        days: 6
-        title: "Advanced Content Management"
-        description: "Workflow approvals, version control, content scheduling, multi-user editing, content templates."
-      performance_optimization:
-        days: 3
-        title: "Performance Optimization"
-        description: "CDN setup, image optimization, caching strategies, performance monitoring, Core Web Vitals optimization."
-      advanced_analytics:
-        days: 4
-        title: "Advanced Analytics & Insights"
-        description: "Custom dashboards, user behavior tracking, conversion funnels, A/B testing, predictive analytics."
-      mobile_app_features:
-        days: 8
-        title: "Mobile App Features"
-        description: "Native mobile app development, push notifications, offline sync, app store optimization, mobile-specific UI."
-      integration_hub:
-        days: 6
-        title: "Integration Hub"
-        description: "Centralized API management, webhook system, data synchronization, custom integrations, integration monitoring."
-      advanced_user_management:
-        days: 5
-        title: "Advanced User Management"
-        description: "Role-based access control, user groups, permissions, audit logging, user lifecycle management."
-      content_personalization:
-        days: 7
-        title: "Content Personalization"
-        description: "User segmentation, dynamic content, recommendation engines, behavioral targeting, personalized experiences."
-
-      # Industry-Specific Features
-      hipaa_compliance:
-        days: 6
-        title: "HIPAA Compliance"
-        description: "Healthcare data security, patient privacy protection, audit trails, compliance reporting, secure messaging."
-      financial_compliance:
-        days: 5
-        title: "Financial Compliance"
-        description: "PCI DSS compliance, KYC verification, AML monitoring, regulatory reporting, secure transactions."
-      accessibility_advanced:
-        days: 8
-        title: "Advanced Accessibility"
-        description: "WCAG AAA compliance, screen reader optimization, keyboard navigation, color contrast, assistive technology support."
-      multilingual_advanced:
-        days: 6
-        title: "Advanced Multilingual Support"
-        description: "RTL language support, cultural localization, currency conversion, timezone handling, regional compliance."
-      ai_ml_features:
-        days: 12
-        title: "AI & Machine Learning"
-        description: "Chatbots, recommendation systems, predictive analytics, natural language processing, automated insights."
-      blockchain_integration:
-        days: 10
-        title: "Blockchain Integration"
-        description: "Smart contracts, cryptocurrency payments, decentralized identity, blockchain verification, wallet integration."
 
     # Feature compatibility rules
     compatibility:
