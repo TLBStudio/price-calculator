@@ -8,6 +8,9 @@ if (method_exists(Dotenv::class, 'bootEnv')) {
     (new Dotenv())->bootEnv(dirname(__DIR__).'/.env');
 }
 
-if ($_SERVER['APP_DEBUG']) {
+if ($_SERVER['APP_DEBUG'] ?? false) {
     umask(0000);
 }
+
+// Set test environment
+$_SERVER['APP_ENV'] = 'test';

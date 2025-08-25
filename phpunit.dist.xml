@@ -39,6 +39,6 @@
         </deprecationTrigger>
     </source>
 
-    <extensions>
+        <extensions>
     </extensions>
 </phpunit>
