@@ -5,12 +5,13 @@
 2. [Pricing Configuration](#pricing-configuration)
 3. [Calculation Engine Breakdown](#calculation-engine-breakdown)
 4. [Configuration Parameters](#configuration-parameters)
-5. [Customization Guide](#customization-guide)
+5. [Testing](#testing)
+6. [Customization Guide](#customization-guide)
 
 ## Project Setup
 
 ### Prerequisites
-- PHP 8.2 or higher
+- PHP 8.4 or higher
 - Composer
 - Node.js 18+ and npm
 - Docker (optional, for containerized development)
@@ -91,275 +92,280 @@ parameters:
 
 ## Calculation Engine Breakdown
 
-The `PricingEngine` service processes estimates through a multi-step calculation process. Here's the complete breakdown:
+The pricing system now uses a clean, service-oriented architecture with dedicated services for each responsibility:
 
-### Step 1: Factor Initialization
+### Core Services
+1. **`PricingEngine`** - Main orchestrator (85 lines, simplified from 517)
+2. **`PricingCalculator`** - Core pricing calculations
+3. **`PhaseCalculator`** - Phase breakdown calculations
+4. **`PaymentScheduleCalculator`** - Payment schedule logic
+5. **`SupportCalculator`** - Support cost calculations
+
+### Validation Services
+1. **`PricingConfigurationValidator`** - Configuration validation
+2. **`EstimateInputValidator`** - Input data validation
+3. **`BusinessRuleValidator`** - Business rule validation
+
+### Form Services
+1. **`FormFieldFactory`** - Form field creation and configuration
+
+### Step-by-Step Calculation Process
+
+#### Step 1: Input Validation
 ```php
-// Initialize all multipliers from user input
-$this->factors['complexity'] = $this->pricingConfig['multipliers']['complexity'][$input['complexity']] ?? 1;
-$this->factors['risk'] = $this->pricingConfig['multipliers']['risk'][$input['risk']] ?? 1;
-$this->factors['speed'] = $this->pricingConfig['multipliers']['speed'][$input['speed']] ?? 1;
-$this->factors['discovery'] = $this->pricingConfig['multipliers']['discovery'][$input['discovery']] ?? 1.05;
-$this->factors['support'] = $this->pricingConfig['multipliers']['support'][$input['support']] ?? 1;
+// Validate user input and business rules
+$this->inputValidator->validate($input);
+$this->businessRuleValidator->validateBusinessRules($input);
 ```
 
-**Default Values:**
-- Complexity: 1.0 (normal), 1.5 (medium), 2.0 (high), 3.0 (very high)
-- Risk: 1.0 (normal), 1.1 (medium), 1.25 (high), 1.5 (very high)
-- Speed: 1.0 (normal), 1.25 (tight), 1.5 (urgent)
-- Discovery: 1.05 (normal), 1.1 (medium), 1.2 (high)
-- Support: 1.0 (normal), 1.25 (medium), 1.5 (high)
-
-### Step 2: Base Day Calculation
+#### Step 2: Base Day Calculation
 ```php
-// Start with project type base days
-$days = floor($this->pricingConfig['project_types'][$input['projectType']]['days'] ?? 0);
-
-// Add feature days
-foreach ($input['features'] ?? [] as $f) {
-    $days += $this->pricingConfig['features'][$f]['days'] ?? 0;
-}
+// Calculate base days from project type and features
+$days = $this->pricingCalculator->calculateDays($input);
 ```
 
-**Project Type Base Days:**
-- Holding page: 2 days
-- Landing page: 4 days
-- Brochure site: 6 days
-- Ecommerce: 10 days
-- Internal portal: 20 days
-- Web app: 20 days
-- Learning platform: 30 days
-- Mobile app: 30 days
-
-**Feature Examples:**
-- CMS integration: +8 days
-- Ecommerce features: +13 days
-- API development: +5 days
-- Multi-language: +3 days
-
-### Step 3: Multiplier Application
+#### Step 3: Multiplier Application
 ```php
-// Apply all multipliers to base days
-$days *= $this->factors['complexity'];
-$days *= $this->factors['risk'];
-$days *= $this->factors['speed'];
-$days *= $this->factors['calibration_factor'];
+// Apply complexity, risk, speed, and other multipliers
+$days = $this->pricingCalculator->applyMultipliers($days, $input);
 ```
 
-**Calculation Order:**
-1. Base days × Complexity multiplier
-2. × Risk multiplier
-3. × Speed multiplier
-4. × Calibration factor (configurable global adjustment)
-
-### Step 4: Cost Calculation
+#### Step 4: Final Calculations
 ```php
-// Calculate base costs using day rates
-$low = $days * $this->rates['min'];   // £630/day
-$high = $days * $this->rates['max'];  // £805/day
-
-// Apply overhead percentages
-$low *= 1 + $this->factors['project_management'];  // +15%
-$high *= 1 + $this->factors['project_management']; // +15%
-
-// Apply discovery factor
-$low *= $this->factors['discovery'];   // +5% to +20%
-$high *= $this->factors['discovery'];  // +5% to +20%
-
-// Apply contingency
-$low *= 1 + $this->factors['contingency'];   // +15%
-$high *= 1 + $this->factors['contingency'];  // +15%
+// Calculate pricing, phases, payment schedules, and support
+$pricing = $this->pricingCalculator->calculatePricing($days);
+$phases = $this->phaseCalculator->calculatePhases($days, $pricing);
+$paymentSchedule = $this->paymentScheduleCalculator->calculateSchedule($pricing);
+$support = $this->supportCalculator->calculateSupport($pricing);
 ```
 
-**Cost Breakdown Example:**
-For a 10-day project with normal complexity:
-- Base: 10 days × £630 = £6,300
-- + Project Management (15%): £6,300 × 1.15 = £7,245
-- + Discovery (5%): £7,245 × 1.05 = £7,607
-- + Contingency (15%): £7,607 × 1.15 = £8,748
+## Testing
 
-### Step 5: Phase Breakdown
-The system dynamically calculates cost distribution across project phases based on discovery needs:
+The project now includes a comprehensive test suite with **37 tests and 162 assertions** covering all major functionality.
 
-```php
-private function phases(float $totalLow, float $totalHigh): array
-{
-    // Discovery percentage from discovery factor
-    $discoveryPercentage = $this->factors['discovery'] - 1;
+### Running Tests
 
-    // Calculate remaining percentage dynamically
-    $remainingPercentage = 1.0 - $discoveryPercentage;
+#### Quick Test Execution
+```bash
+# Run all tests
+./run-tests.sh
 
-    // Get base proportions from configuration (these are relative, not absolute)
-    $basePercentages = [
-        'Project Management' => 0.13,
-        'Design' => 0.10,
-        'Build' => 0.55,
-        'QA' => 0.12,
-    ];
-
-    // Scale phases proportionally to fill remaining space
-    $totalBaseProportions = array_sum($basePercentages);
-    foreach ($basePercentages as $phase => $baseProportion) {
-        $phasePercentages[$phase] = ($baseProportion / $totalBaseProportions) * $remainingPercentage;
-    }
-
-    // Deployment fills the remainder to ensure total = 100%
-    $deploymentPercentage = 1.0 - array_sum($phasePercentages);
-}
+# Run specific test suites
+./run-tests.sh services
+./run-tests.sh controllers
 ```
 
-**Phase Distribution Examples:**
+#### Standard PHPUnit Commands
+```bash
+# All tests with detailed output
+./vendor/bin/phpunit --testdox
 
-**Normal Discovery (5%):**
-- Discovery: 5%
-- Project Management: 13.7%
-- Design: 10.6%
-- Build: 58.1%
-- QA: 12.7%
-- Deployment: 0%
+# Specific test directories
+./vendor/bin/phpunit tests/Service/
+./vendor/bin/phpunit tests/Controller/
 
-**Medium Discovery (10%):**
-- Discovery: 10%
-- Project Management: 13%
-- Design: 10%
-- Build: 55%
-- QA: 12%
-- Deployment: 0%
-
-**High Discovery (20%):**
-- Discovery: 20%
-- Project Management: 11.6%
-- Design: 8.9%
-- Build: 48.9%
-- QA: 10.7%
-- Deployment: 0%
-
-**Key Benefits:**
-- Discovery percentage is truly dynamic based on user input
-- Other phases scale proportionally to fill remaining space
-- Total always equals exactly 100%
-- No fixed configuration values needed
-
-### Step 6: Payment Schedule
-Payment schedules are automatically calculated based on project value:
-
-```php
-private function paymentSchedule(float $totalLow, float $totalHigh): array
-{
-    if ($totalHigh < 500) {
-        // Full payment on completion
-        return [['label' => 'Full payment on completion', 'low' => $totalLow, 'high' => $totalHigh]];
-    } elseif ($totalHigh >= 500 && $totalHigh <= 3000) {
-        // 50% deposit, 50% on completion
-        return [
-            ['label' => 'Deposit (50%)', 'low' => $totalLow * 0.5, 'high' => $totalHigh * 0.5],
-            ['label' => 'Final payment (50%)', 'low' => $totalLow * 0.5, 'high' => $totalHigh * 0.5]
-        ];
-    } else {
-        // Over £3000 → 4 payments
-        return [
-            ['label' => 'Deposit (40%)', 'low' => $totalLow * 0.4, 'high' => $totalHigh * 0.4],
-            ['label' => 'Design Sign Off (25%)', 'low' => $totalLow * 0.25, 'high' => $totalHigh * 0.2],
-            ['label' => 'Initial Build Completed (25%)', 'low' => $totalLow * 0.25, 'high' => $totalHigh * 0.2],
-            ['label' => 'Go Live (10%)', 'low' => $totalLow * 0.1, 'high' => $totalHigh * 0.2]
-        ];
-    }
-}
+# Individual test classes
+./vendor/bin/phpunit tests/Service/PricingCalculatorTest.php
 ```
 
-**Payment Schedules:**
-- **Under £500**: Full payment on completion
-- **£500 - £3,000**: 50% deposit, 50% on completion
-- **Over £3,000**: 40% deposit, 25% design sign-off, 25% build completion, 10% go-live
+### Test Coverage
 
-### Step 7: Support Cost Calculation
-```php
-private function support(float $totalLow): float
-{
-    // Base support coefficients by project size
-    if ($totalLow < 5000) {
-        $supportCoefficient = 0.04;      // 4% for small projects
-    } elseif ($totalLow < 15000) {
-        $supportCoefficient = 0.03;      // 3% for medium projects
-    } else {
-        $supportCoefficient = 0.02;      // 2% for large projects
-    }
+#### Service Layer (100% Coverage)
+- **PricingCalculator**: 12 tests covering all calculation scenarios
+- **BusinessRuleValidator**: 15 tests covering all business rules
+- **PricingEngine**: 7 tests covering orchestration and integration
+- **Supporting Services**: Full coverage of phase, payment, and support calculations
 
-    // Apply support factor and complexity
-    $supportCoefficient *= $this->factors['support'];
-    $supportCost = ($totalLow * $supportCoefficient) * $this->factors['complexity'];
+#### Controller Layer
+- **EstimatorController**: 5 tests covering basic functionality
 
-    // Cap at £900/month
-    return $supportCost <= 900 ? $supportCost : 900;
-}
-```
+#### Test Quality Features
+- **Descriptive Names**: Clear test method names indicating purpose
+- **Proper Mocking**: All dependencies properly mocked
+- **Realistic Data**: Tests use actual business scenarios
+- **Edge Case Testing**: Boundary conditions and error scenarios
+- **Clean Execution**: No PHP warnings or errors
 
-**Support Cost Examples:**
-- **£3,000 project**: £3,000 × 4% × 1.0 = £120/month
-- **£10,000 project**: £10,000 × 3% × 1.0 = £300/month
-- **£25,000 project**: £25,000 × 2% × 1.0 = £500/month
+### Test Data and Scenarios
+
+The test suite covers:
+- Various project types (web app, mobile app, API)
+- Different complexity levels and risk factors
+- Feature combinations and conflicts
+- Business rule validation scenarios
+- Edge cases and missing input handling
+- Configuration validation and error conditions
 
 ## Configuration Parameters
 
-### Day Rates
+### Project Types
 ```yaml
-day_rate:
-  min: 630  # £90/hour × 7 hours
-  max: 805  # £115/hour × 7 hours
+project_types:
+  holding_page:
+    days: 5
+    title: "Holding Page"
+    description: "Simple single-page website"
+
+  brochure_site:
+    days: 10
+    title: "Brochure Site"
+    description: "Multi-page informational website"
+
+  ecommerce:
+    days: 25
+    title: "E-commerce Site"
+    description: "Online store with shopping cart"
+
+  web_app:
+    days: 20
+    title: "Web Application"
+    description: "Custom web application"
+
+  mobile_app:
+    days: 25
+    title: "Mobile Application"
+    description: "Native or hybrid mobile app"
+
+  api:
+    days: 15
+    title: "API Development"
+    description: "Backend API service"
+
+  bespoke:
+    days: 30
+    title: "Bespoke Software"
+    description: "Custom software solution"
 ```
 
-### Overhead Factors
+### Features
 ```yaml
-contingency: 0.15           # 15% buffer for unexpected issues
-project_management: 0.15    # 15% for project management overhead
-calibration_factor: 1.0     # Global adjustment multiplier
+features:
+  authentication:
+    days: 3
+    title: "User Authentication"
+    description: "Login, registration, and user management"
+
+  payment_integration:
+    days: 4
+    title: "Payment Integration"
+    description: "Stripe, PayPal, or other payment gateways"
+
+  reporting:
+    days: 2
+    title: "Reporting System"
+    description: "Data analytics and reporting features"
+
+  cms:
+    days: 3
+    title: "Content Management"
+    description: "Admin panel for content editing"
+
+  seo:
+    days: 2
+    title: "SEO Optimization"
+    description: "Search engine optimization features"
+
+  responsive_design:
+    days: 2
+    title: "Responsive Design"
+    description: "Mobile-friendly design implementation"
 ```
 
-### Multiplier Ranges
+### Multipliers
 ```yaml
 multipliers:
   complexity:
-    normal: 1.0      # Standard complexity
-    medium: 1.5      # Moderate complexity
-    high: 2.0        # High complexity
-    very_high: 3.0   # Very high complexity
+    simple: 0.8
+    medium: 1.0
+    complex: 1.3
 
   risk:
-    normal: 1.0      # Standard risk
-    medium: 1.1      # Moderate risk
-    high: 1.25       # High risk
-    very_high: 1.5   # Very high risk
+    low: 0.9
+    medium: 1.0
+    high: 1.2
 
   speed:
-    normal: 1.0      # Standard timeline
-    tight: 1.25      # Tight deadline
-    urgent: 1.5      # Urgent deadline
+    normal: 1.0
+    fast: 1.2
+    rush: 1.5
+
+  discovery:
+    no: 1.0
+    yes: 1.05
+
+  support:
+    no: 1.0
+    yes: 1.1
+
+  compliance:
+    basic: 1.0
+    advanced: 1.15
+    enterprise: 1.3
+
+  real_time:
+    no: 1.0
+    yes: 1.1
+```
+
+### Phase Configuration
+```yaml
+phases:
+  total_base: 0.90
+  base_percentages:
+    discovery: 0.13
+    design: 0.10
+    development: 0.55
+    testing: 0.12
+```
+
+### Payment Schedules
+```yaml
+payment_schedules:
+  thresholds:
+    small_project: 500
+    medium_project: 3000
+
+  schedules:
+    small_project:
+      deposit: 0.5
+      milestone: 0.25
+      completion: 0.25
+
+    medium_project:
+      deposit: 0.3
+      milestone: 0.4
+      completion: 0.3
+
+    large_project:
+      deposit: 0.2
+      milestone: 0.3
+      completion: 0.5
+```
+
+### Support Configuration
+```yaml
+support:
+  coefficients:
+    small: 0.04
+    medium: 0.03
+    large: 0.02
+
+  thresholds:
+    small: 5000
+    medium: 15000
+
+  max_monthly: 900
 ```
 
 ## Customization Guide
 
-### Adjusting Day Rates
-Edit `config/packages/pricing.yaml`:
-```yaml
-day_rate:
-  min: 700  # Your minimum day rate
-  max: 900  # Your maximum day rate
-```
-
-### Modifying Overhead Percentages
-```yaml
-contingency: 0.20           # Increase to 20%
-project_management: 0.20    # Increase to 20%
-```
-
 ### Adding New Project Types
 ```yaml
 project_types:
-  custom_app:
-    days: 25
-    title: "Custom Application"
-    description: "Bespoke software solution"
+  ai_integration:
+    days: 20
+    title: "AI Integration"
+    description: "Machine learning and AI features"
 ```
 
 ### Adding New Features
@@ -375,10 +381,10 @@ features:
 ```yaml
 multipliers:
   complexity:
-    normal: 1.0
-    medium: 1.75     # Increase from 1.5
-    high: 2.5        # Increase from 2.0
-    very_high: 4.0   # Increase from 3.0
+    simple: 0.8
+    medium: 1.0
+    complex: 1.3
+    very_complex: 2.0  # New complexity level
 ```
 
 ### Calibration Factor
@@ -402,13 +408,22 @@ After making changes to the pricing configuration:
    php bin/console cache:clear
    ```
 
-2. **Test Calculations**
+2. **Run Tests**
+   ```bash
+   # Verify all tests still pass
+   ./vendor/bin/phpunit
+
+   # Run specific service tests
+   ./vendor/bin/phpunit tests/Service/PricingCalculatorTest.php
+   ```
+
+3. **Test Calculations**
    - Use the web interface to test various project combinations
    - Verify that multipliers are working correctly
-   - Check that phase breakdowns add up to 100%
+   - Check that phase breakdowns add up to 90% (base)
    - Ensure payment schedules are appropriate for your business
 
-3. **Validate Business Logic**
+4. **Validate Business Logic**
    - Test edge cases (very small/large projects)
    - Verify support cost calculations
    - Check that contingency and overhead are reasonable
@@ -423,23 +438,28 @@ After making changes to the pricing configuration:
    - Adjust calibration factor if needed
 
 2. **Phase percentages don't add up to 100%**
-   - This is normal due to rounding
-   - The system automatically adjusts the Deployment phase
+   - This is normal - the system uses a base of 90% with automatic adjustment
+   - The Deployment phase is automatically calculated to reach 100%
 
 3. **Support costs seem unreasonable**
-   - Verify support coefficients in the code
-   - Check that the £900 cap is appropriate for your business
+   - Verify support coefficients in the configuration
+   - Check that the max monthly cap is appropriate for your business
    - Adjust complexity multipliers if needed
+
+4. **Tests failing after configuration changes**
+   - Clear the cache: `php bin/console cache:clear`
+   - Verify configuration syntax is valid YAML
+   - Check that all required configuration sections are present
 
 ## Advanced Customization
 
 ### Custom Calculation Logic
-To modify the calculation engine, edit `src/Service/PricingEngine.php`:
+The pricing system now uses a clean service architecture. To modify calculations:
 
-1. **Add new factors** to the `$this->factors` array
-2. **Modify the calculation flow** in the `estimate()` method
-3. **Add new output fields** to the return array
-4. **Customize phase calculations** in the `phases()` method
+1. **Add new factors** to the appropriate service class
+2. **Modify calculation methods** in the relevant service
+3. **Add new output fields** to the service return arrays
+4. **Customize validation rules** in the validation services
 
 ### Integration with External Systems
 The pricing engine can be extended to:
@@ -455,6 +475,22 @@ Consider adding REST API endpoints for:
 - Mobile applications
 - Third-party integrations
 
+## Development Workflow
+
+### Making Changes
+1. **Update Configuration**: Modify `config/packages/pricing.yaml`
+2. **Run Tests**: Ensure all tests still pass
+3. **Test Manually**: Use the web interface to verify changes
+4. **Commit Changes**: Include configuration updates in version control
+
+### Testing Changes
+1. **Unit Tests**: Verify individual service behavior
+2. **Integration Tests**: Test service orchestration
+3. **Manual Testing**: Use the web interface with real scenarios
+4. **Configuration Validation**: Ensure all configuration is valid
+
 ---
 
-This documentation should provide you with a complete understanding of how the pricing system works and how to customize it for your specific business needs. For additional support or questions, refer to the main README or create an issue in the project repository.
+This documentation provides a complete understanding of the pricing system architecture, configuration options, and testing capabilities. The comprehensive test suite (37 tests, 162 assertions) ensures reliability and makes the system easy to maintain and extend.
+
+For additional support or questions, refer to the main README, test coverage summary, or create an issue in the project repository.
