@@ -4,6 +4,7 @@ namespace App\Service;
 
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
+use Symfony\Component\Form\Extension\Core\Type\IntegerType;
 use Symfony\Component\Validator\Constraints as Assert;
 
 class FormFieldFactory
@@ -89,6 +90,31 @@ class FormFieldFactory
             'required' => false,
             'attr' => [
                 'class' => 'features-checkboxes'
+            ]
+        ]);
+    }
+
+    /**
+     * Add a bundles field
+     */
+    public function addBundlesField(FormBuilderInterface $builder): void
+    {
+        $builder->add('bundles', IntegerType::class, [
+            'label' => 'Additional Bundles',
+            'required' => false,
+            'attr' => [
+                'class' => 'form-control bundle-quantity',
+                'min' => 0,
+                'max' => $this->pricingConfig['bundles']['max_quantity'] ?? 50,
+                'placeholder' => '0',
+                'title' => $this->pricingConfig['bundles']['description'] ?? 'Each bundle adds 0.5 days'
+            ],
+            'constraints' => [
+                new Assert\Range([
+                    'min' => 0,
+                    'max' => $this->pricingConfig['bundles']['max_quantity'] ?? 50,
+                    'notInRangeMessage' => 'Bundle quantity must be between {{ min }} and {{ max }}'
+                ])
             ]
         ]);
     }

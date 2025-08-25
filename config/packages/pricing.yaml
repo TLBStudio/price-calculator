@@ -294,6 +294,13 @@ parameters:
         title: "Video Production"
         description: "Professional video content creation including scripting, filming, editing, and optimization for web platforms."
 
+    # Generic bundles - each adds 0.4 days or roughly 3hrs
+    bundles:
+      days_per_bundle: 0.4
+      title: "Additional Bundles"
+      description: "Generic development bundles for additional CRUD driven features, customizations, or requirements. Examples include: Blog, Services, FAQ, Testimonials, etc."
+      max_quantity: 50
+
     # Feature compatibility rules
     compatibility:
       # Project type incompatibilities

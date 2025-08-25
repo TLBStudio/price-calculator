@@ -57,8 +57,16 @@ class PricingCalculator
     {
         $days = floor($this->pricingConfig['project_types'][$input['projectType']]['days'] ?? 0);
 
+        // Add days from selected features
         foreach ($input['features'] ?? [] as $feature) {
             $days += $this->pricingConfig['features'][$feature]['days'] ?? 0;
+        }
+
+        // Add days from bundles (each bundle adds 0.5 days)
+        $bundleQuantity = $input['bundles'] ?? 0;
+        if ($bundleQuantity > 0) {
+            $daysPerBundle = $this->pricingConfig['bundles']['days_per_bundle'] ?? 0.5;
+            $days += $bundleQuantity * $daysPerBundle;
         }
 
         return $days;

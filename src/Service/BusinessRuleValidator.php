@@ -121,49 +121,40 @@ class BusinessRuleValidator
     {
         $allIssues = [];
 
-        // Check for conflicting design features
-        if (isset($this->pricingConfig['compatibility']['feature_incompatibilities']['design_features'])) {
-            $rule = $this->pricingConfig['compatibility']['feature_incompatibilities']['design_features'];
-            $conflictingFeatures = $rule['conflicting_features'];
-            $selectedConflictingFeatures = array_intersect($features, $conflictingFeatures);
+        // Check for all conflicting feature combinations defined in config
+        if (isset($this->pricingConfig['compatibility']['feature_incompatibilities'])) {
+            foreach ($this->pricingConfig['compatibility']['feature_incompatibilities'] as $conflictType => $rule) {
+                if (isset($rule['conflicting_features'])) {
+                    $conflictingFeatures = $rule['conflicting_features'];
+                    $selectedConflictingFeatures = array_intersect($features, $conflictingFeatures);
 
-            if (count($selectedConflictingFeatures) > 1) {
-                $allIssues[] = [
-                    'type' => 'conflict',
-                    'message' => $rule['message'],
-                    'conflicting_features' => array_values($selectedConflictingFeatures)
-                ];
+                    if (count($selectedConflictingFeatures) > 1) {
+                        $allIssues[] = [
+                            'type' => 'conflict',
+                            'message' => $rule['message'],
+                            'conflicting_features' => array_values($selectedConflictingFeatures)
+                        ];
+                    }
+                }
             }
         }
 
-        // Check for conflicting integration features
-        if (isset($this->pricingConfig['compatibility']['feature_incompatibilities']['integration_features'])) {
-            $rule = $this->pricingConfig['compatibility']['feature_incompatibilities']['integration_features'];
-            $conflictingFeatures = $rule['conflicting_features'];
-            $selectedConflictingFeatures = array_intersect($features, $conflictingFeatures);
+        // Check for feature dependencies
+        if (isset($this->pricingConfig['compatibility']['feature_dependencies'])) {
+            foreach ($this->pricingConfig['compatibility']['feature_dependencies'] as $featureType => $rule) {
+                if (isset($rule['required_features'])) {
+                    $requiredFeatures = $rule['required_features'];
 
-            if (count($selectedConflictingFeatures) > 1) {
-                $allIssues[] = [
-                    'type' => 'conflict',
-                    'message' => $rule['message'],
-                    'conflicting_features' => array_values($selectedConflictingFeatures)
-                ];
-            }
-        }
-
-        // Check for ecommerce dependencies
-        if (isset($this->pricingConfig['compatibility']['feature_dependencies']['ecommerce_features'])) {
-            $rule = $this->pricingConfig['compatibility']['feature_dependencies']['ecommerce_features'];
-            $requiredFeatures = $rule['required_features'];
-
-            if (in_array('ecommerce_features', $features)) {
-                $missingFeatures = array_diff($requiredFeatures, $features);
-                if (!empty($missingFeatures)) {
-                    $allIssues[] = [
-                        'type' => 'dependency',
-                        'message' => $rule['message'],
-                        'incompatible_features' => array_values($missingFeatures)
-                    ];
+                    if (in_array($featureType, $features)) {
+                        $missingFeatures = array_diff($requiredFeatures, $features);
+                        if (!empty($missingFeatures)) {
+                            $allIssues[] = [
+                                'type' => 'dependency',
+                                'message' => $rule['message'],
+                                'incompatible_features' => array_values($missingFeatures)
+                            ];
+                        }
+                    }
                 }
             }
         }

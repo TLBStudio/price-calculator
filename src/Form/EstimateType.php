@@ -52,6 +52,9 @@ class EstimateType extends AbstractType
 
         // Features
         $fieldFactory->addFeaturesField($builder);
+
+        // Bundles
+        $fieldFactory->addBundlesField($builder);
     }
 
 

@@ -22,6 +22,7 @@ class EstimateInputValidator
     {
         $this->validateProjectType($input);
         $this->validateFeatures($input);
+        $this->validateBundles($input);
         $this->validateRequiredMultipliers($input);
         $this->validateOptionalMultipliers($input);
     }
@@ -50,6 +51,25 @@ class EstimateInputValidator
                 if (!isset($this->pricingConfig['features'][$feature])) {
                     throw PricingConfigurationException::invalidFeature($feature);
                 }
+            }
+        }
+    }
+
+    /**
+     * Validates bundles
+     */
+    private function validateBundles(array $input): void
+    {
+        if (isset($input['bundles'])) {
+            $bundleQuantity = $input['bundles'];
+
+            if (!is_numeric($bundleQuantity) || $bundleQuantity < 0) {
+                throw new PricingConfigurationException('Bundle quantity must be a non-negative number');
+            }
+
+            $maxQuantity = $this->pricingConfig['bundles']['max_quantity'] ?? 50;
+            if ($bundleQuantity > $maxQuantity) {
+                throw new PricingConfigurationException(sprintf('Bundle quantity cannot exceed %d', $maxQuantity));
             }
         }
     }
