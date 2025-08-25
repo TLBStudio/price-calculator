@@ -141,7 +141,7 @@ $support = $this->supportCalculator->calculateSupport($pricing);
 
 ## Testing
 
-The project now includes a comprehensive test suite with **37 tests and 162 assertions** covering all major functionality.
+The project now includes a comprehensive test suite with **37 tests and 162 assertions** covering all major functionality, combined with **PHPStan Level 6** static analysis for enterprise-grade code quality.
 
 ### Running Tests
 
@@ -185,6 +185,7 @@ The project now includes a comprehensive test suite with **37 tests and 162 asse
 - **Realistic Data**: Tests use actual business scenarios
 - **Edge Case Testing**: Boundary conditions and error scenarios
 - **Clean Execution**: No PHP warnings or errors
+- **Static Analysis**: **PHPStan Level 6** with 0 errors
 
 ### Test Data and Scenarios
 
@@ -195,6 +196,41 @@ The test suite covers:
 - Business rule validation scenarios
 - Edge cases and missing input handling
 - Configuration validation and error conditions
+
+## Code Quality Tools
+
+### PHPStan Static Analysis
+The project uses **PHPStan Level 6** for enterprise-grade static analysis:
+
+```bash
+# Run static analysis
+./vendor/bin/phpstan analyse
+
+# Run with specific level
+./vendor/bin/phpstan analyse --level=6
+```
+
+**Benefits of Level 6:**
+- Enhanced type safety with precise array type definitions
+- Better IDE support and autocomplete
+- Catches potential runtime errors before execution
+- Professional-grade code quality standards
+
+### PHP CS Fixer
+Automated code formatting to Symfony standards:
+
+```bash
+# Format all code
+./vendor/bin/php-cs-fixer fix
+
+# Check formatting without changes
+./vendor/bin/php-cs-fixer fix --dry-run
+```
+
+### Current Status
+- **PHPStan Level 6**: ✅ 0 errors
+- **PHP CS Fixer**: ✅ 0 formatting issues
+- **PHPUnit**: ✅ 37 tests, 162 assertions passing
 
 ## Configuration Parameters
 
