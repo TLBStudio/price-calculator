@@ -66,8 +66,10 @@ class EstimatorController extends AbstractController
         } elseif ($form->isSubmitted() && !$form->isValid()) {
             // Form validation errors
             foreach ($form->getErrors(true) as $error) {
-                $errors[] = $error->getMessage();
-                $this->addFlash('error', $error->getMessage());
+                if ($error instanceof \Symfony\Component\Form\FormError) {
+                    $errors[] = $error->getMessage();
+                    $this->addFlash('error', $error->getMessage());
+                }
             }
         }
 

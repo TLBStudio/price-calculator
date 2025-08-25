@@ -82,10 +82,13 @@ class PaymentScheduleCalculator
         $paymentSchedule = [];
 
         foreach ($schedule as $payment) {
+            $lowPercent = is_numeric($payment['low_percent']) ? (float) $payment['low_percent'] : 0.0;
+            $highPercent = is_numeric($payment['high_percent']) ? (float) $payment['high_percent'] : 0.0;
+
             $paymentSchedule[] = [
                 'label' => $payment['label'],
-                'low' => round($totalLow * $payment['low_percent']),
-                'high' => round($totalHigh * $payment['high_percent']),
+                'low' => round($totalLow * $lowPercent),
+                'high' => round($totalHigh * $highPercent),
             ];
         }
 

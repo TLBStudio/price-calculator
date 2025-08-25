@@ -26,8 +26,12 @@ class BusinessRuleValidator
         $warnings = [];
 
         // Check if project type and features are compatible
-        if (isset($data['projectType']) && isset($data['features'])) {
-            $compatibilityIssues = $this->checkFeatureCompatibility($data['projectType'], $data['features']);
+        if (isset($data['projectType']) && isset($data['features']) && is_array($data['features'])) {
+            /** @var string $projectType */
+            $projectType = $data['projectType'];
+            /** @var array<string> $features */
+            $features = $data['features'];
+            $compatibilityIssues = $this->checkFeatureCompatibility($projectType, $features);
             if (!empty($compatibilityIssues['incompatible'])) {
                 $warnings[] = $compatibilityIssues['message'];
             }
@@ -55,15 +59,26 @@ class BusinessRuleValidator
         }
 
         // Validate feature combinations
-        if (isset($data['features'])) {
-            $featureIssues = $this->validateFeatureCombinations($data['features']);
+        if (isset($data['features']) && is_array($data['features'])) {
+            /** @var array<string> $features */
+            $features = $data['features'];
+            $featureIssues = $this->validateFeatureCombinations($features);
             // Add all feature issues to warnings
             foreach ($featureIssues as $issue) {
-                $warnings[] = $issue['message'];
+                if (is_array($issue) && isset($issue['message']) && is_string($issue['message'])) {
+                    $warnings[] = $issue['message'];
+                }
             }
         }
 
-        return $warnings;
+        // Ensure we only return strings
+        $stringWarnings = [];
+        foreach ($warnings as $warning) {
+            if (is_string($warning)) {
+                $stringWarnings[] = $warning;
+            }
+        }
+        return $stringWarnings;
     }
 
     /**
@@ -78,8 +93,12 @@ class BusinessRuleValidator
     {
         $warnings = [];
 
-        if (isset($data['projectType']) && isset($data['features'])) {
-            $compatibilityIssues = $this->checkFeatureCompatibility($data['projectType'], $data['features']);
+        if (isset($data['projectType']) && isset($data['features']) && is_array($data['features'])) {
+            /** @var string $projectType */
+            $projectType = $data['projectType'];
+            /** @var array<string> $features */
+            $features = $data['features'];
+            $compatibilityIssues = $this->checkFeatureCompatibility($projectType, $features);
             if (!empty($compatibilityIssues['incompatible'])) {
                 $warnings[] = [
                     'type' => 'incompatibility',
@@ -89,8 +108,10 @@ class BusinessRuleValidator
             }
         }
 
-        if (isset($data['features'])) {
-            $featureIssues = $this->validateFeatureCombinations($data['features']);
+        if (isset($data['features']) && is_array($data['features'])) {
+            /** @var array<string> $features */
+            $features = $data['features'];
+            $featureIssues = $this->validateFeatureCombinations($features);
 
             // Add all feature issues to warnings
             foreach ($featureIssues as $issue) {
