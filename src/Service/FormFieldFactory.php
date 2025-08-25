@@ -34,13 +34,13 @@ class FormFieldFactory
                 'message' => sprintf('Please select a %s.', strtolower($label))
             ]),
             new Assert\Choice([
-                'choices' => array_keys($choices),
+                'choices' => array_values($choices),
                 'message' => sprintf('Please select a valid %s.', strtolower($label))
             ])
         ], $additionalConstraints);
 
         $builder->add($fieldName, ChoiceType::class, [
-            'label' => $label,
+            'label' => $this->formatLabel($label),
             'choices' => $choices,
             'placeholder' => $placeholder,
             'constraints' => $constraints,
@@ -65,7 +65,7 @@ class FormFieldFactory
                     'message' => 'Please select a project type to continue.'
                 ]),
                 new Assert\Choice([
-                    'choices' => array_keys($this->pricingConfig['project_types']),
+                    'choices' => array_values($choices),
                     'message' => 'Please select a valid project type.'
                 ])
             ],
@@ -83,7 +83,7 @@ class FormFieldFactory
         $choices = $this->createTitleChoices($this->pricingConfig['features']);
 
         $builder->add('features', ChoiceType::class, [
-            'label' => 'Additional Features',
+            'label' => $this->formatLabel('Additional Features'),
             'choices' => $choices,
             'multiple' => true,
             'expanded' => true,
@@ -100,7 +100,7 @@ class FormFieldFactory
     public function addBundlesField(FormBuilderInterface $builder): void
     {
         $builder->add('bundles', IntegerType::class, [
-            'label' => 'Additional Bundles',
+            'label' => $this->formatLabel('Additional Bundles'),
             'required' => false,
             'attr' => [
                 'class' => 'form-control bundle-quantity',
@@ -126,7 +126,8 @@ class FormFieldFactory
     {
         $choices = [];
         foreach ($items as $key => $item) {
-            $choices[$item['title'] ?? $key] = $key;
+            $displayText = $item['title'] ?? $key;
+            $choices[$this->formatLabel($displayText)] = $key;
         }
         return $choices;
     }
@@ -138,8 +139,20 @@ class FormFieldFactory
     {
         $choices = [];
         foreach ($multipliers as $key => $value) {
-            $choices[$key] = $key;
+            $choices[$this->formatLabel($key)] = $key;
         }
         return $choices;
+    }
+
+    /**
+     * Format a label to title case and replace underscores with spaces
+     */
+    private function formatLabel(string $label): string
+    {
+        // Replace underscores with spaces
+        $label = str_replace('_', ' ', $label);
+
+        // Convert to title case
+        return ucwords(strtolower($label));
     }
 }

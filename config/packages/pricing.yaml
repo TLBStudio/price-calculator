@@ -3,7 +3,7 @@ parameters:
     calibration_factor: 1.0
     day_rate:
       min: 630       # £90/hour × 7hr day
-      max: 805       # £115/hour × 7hr day
+      max: 735       # £105/hour × 7hr day
     contingency: 0.15
     project_management: 0.15
 
@@ -81,7 +81,7 @@ parameters:
         description: "A focused, standalone web presence for a specific campaign or objective."
       brochure:
         days: 6
-        title: "Brochure site (FlightCMS or similar)"
+        title: "Brochure site - FlightCMS or similar"
         description: "Simple informational website presenting a business, organization, or service online."
       rebuild_migration:
         days: 8
@@ -89,7 +89,7 @@ parameters:
         description: "Updating an existing website while keeping design and functionality aligned with best practices."
       headless_cms_site:
         days: 8
-        title: "Headless CMS Site (Storyblok or similar)"
+        title: "Headless CMS Site - Storyblok or similar"
         description: "Content-managed site using headless CMS with separate frontend framework."
       ecommerce:
         days: 10
@@ -113,7 +113,7 @@ parameters:
         description: "University/college website with course management, student portals, and alumni networks."
       progressive_web_app:
         days: 25
-        title: "Progressive Web App (PWA)"
+        title: "Progressive Web App - PWA"
         description: "Web application with native app-like features including offline support, push notifications, and app-like experience."
       nonprofit_organization:
         days: 30
@@ -261,10 +261,6 @@ parameters:
         days: 3
         title: "Multi-language"
         description: "Multi-language or localization support."
-      multilingual_advanced:
-        days: 6
-        title: "Advanced Multilingual Support"
-        description: "RTL language support, cultural localization, currency conversion, timezone handling, regional compliance."
       payment_gateway:
         days: 2
         title: "Payment gateway"
@@ -283,11 +279,11 @@ parameters:
         description: "Comprehensive keyword research and competitor analysis to identify ranking opportunities, content gaps, and strategic insights that boost your organic search performance and outrank competitors."
       third_party_integration_simple:
         days: 2
-        title: "Third party integration (simple)"
+        title: "Third party integration - simple"
         description: "Mailchimp, Zapier etc. Simple integration, no custom development."
       third_party_integration_complex:
         days: 9
-        title: "Third party integration (complex)"
+        title: "Third party integration - complex"
         description: "Hubspot, Salesforce, Zendesk. Requires custom development."
       video_production:
         days: 4
@@ -345,9 +341,6 @@ parameters:
         accessibility_features:
           conflicting_features: ['accessibility', 'accessibility_advanced']
           message: "Choose either basic accessibility or advanced accessibility, not both."
-        multilingual_features:
-          conflicting_features: ['multi_language', 'multilingual_advanced']
-          message: "Choose either basic multilingual support or advanced multilingual support, not both."
         analytics_features:
           conflicting_features: ['analytics_setup', 'advanced_analytics']
           message: "Choose either basic analytics setup or advanced analytics, not both."
