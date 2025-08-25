@@ -4,8 +4,10 @@ namespace App\Service;
 
 class PaymentScheduleCalculator
 {
+    /** @var array<string, mixed> */
     private array $paymentConfig;
 
+    /** @param array<string, mixed> $pricingConfig */
     public function __construct(array $pricingConfig)
     {
         $this->paymentConfig = $pricingConfig['payment_schedules'] ?? [];
@@ -14,6 +16,7 @@ class PaymentScheduleCalculator
     /**
      * Calculate payment schedule based on project size.
      */
+    /** @return list<array<string, mixed>> */
     public function calculatePaymentSchedule(float $totalLow, float $totalHigh): array
     {
         $thresholds = $this->getThresholds();
@@ -25,6 +28,7 @@ class PaymentScheduleCalculator
     /**
      * Get payment thresholds from configuration.
      */
+    /** @return array<string, int> */
     private function getThresholds(): array
     {
         return $this->paymentConfig['thresholds'] ?? [
@@ -35,6 +39,10 @@ class PaymentScheduleCalculator
 
     /**
      * Determine the appropriate payment schedule type.
+     */
+    /**
+     * @phpstan-param array<string, int> $thresholds
+     * @return list<array<string, float>>
      */
     private function determineScheduleType(float $totalHigh, array $thresholds): array
     {
@@ -62,6 +70,10 @@ class PaymentScheduleCalculator
 
     /**
      * Format payment schedule with actual amounts.
+     */
+    /**
+     * @phpstan-param list<array<string, string|float>> $schedule
+     * @return list<array<string, mixed>>
      */
     private function formatPaymentSchedule(float $totalLow, float $totalHigh, array $schedule): array
     {

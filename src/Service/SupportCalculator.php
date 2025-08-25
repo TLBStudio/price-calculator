@@ -4,8 +4,10 @@ namespace App\Service;
 
 class SupportCalculator
 {
+    /** @var array<string, mixed> */
     private array $supportConfig;
 
+    /** @param array<string, mixed> $pricingConfig */
     public function __construct(array $pricingConfig)
     {
         $this->supportConfig = $pricingConfig['support'] ?? [];
@@ -29,6 +31,7 @@ class SupportCalculator
     /**
      * Get support coefficients from configuration.
      */
+    /** @return array<string, float> */
     private function getSupportCoefficients(): array
     {
         return $this->supportConfig['coefficients'] ?? [
@@ -41,6 +44,7 @@ class SupportCalculator
     /**
      * Get support thresholds from configuration.
      */
+    /** @return array<string, int> */
     private function getSupportThresholds(): array
     {
         return $this->supportConfig['thresholds'] ?? [
@@ -59,6 +63,10 @@ class SupportCalculator
 
     /**
      * Determine support coefficient based on project size.
+     */
+    /**
+     * @phpstan-param array<string, float> $coefficients
+     * @phpstan-param array<string, int> $thresholds
      */
     private function determineSupportCoefficient(float $totalLow, array $coefficients, array $thresholds): float
     {

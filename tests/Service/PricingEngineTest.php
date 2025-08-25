@@ -22,6 +22,7 @@ class PricingEngineTest extends TestCase
     private mixed $phaseCalculator;
     private mixed $paymentCalculator;
     private mixed $supportCalculator;
+    /** @var array<string, mixed> */
     private array $pricingConfig;
 
     protected function setUp(): void

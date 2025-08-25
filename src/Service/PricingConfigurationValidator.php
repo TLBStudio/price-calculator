@@ -11,6 +11,7 @@ class PricingConfigurationValidator
      *
      * @throws PricingConfigurationException
      */
+    /** @param array<string, mixed> $pricingConfig */
     public function validate(array $pricingConfig): void
     {
         $this->validateRequiredConfiguration($pricingConfig);
@@ -26,6 +27,7 @@ class PricingConfigurationValidator
     /**
      * Validates required top-level configuration.
      */
+    /** @param array<string, mixed> $pricingConfig */
     private function validateRequiredConfiguration(array $pricingConfig): void
     {
         $requiredKeys = ['day_rate', 'contingency', 'project_management', 'calibration_factor', 'multipliers', 'project_types', 'features'];
@@ -40,6 +42,7 @@ class PricingConfigurationValidator
     /**
      * Validates day rate configuration.
      */
+    /** @param array<string, mixed> $pricingConfig */
     private function validateDayRates(array $pricingConfig): void
     {
         if (!isset($pricingConfig['day_rate']['min']) || !isset($pricingConfig['day_rate']['max'])) {
@@ -62,6 +65,7 @@ class PricingConfigurationValidator
     /**
      * Validates percentage-based configurations.
      */
+    /** @param array<string, mixed> $pricingConfig */
     private function validatePercentages(array $pricingConfig): void
     {
         $this->validatePercentage('contingency', $pricingConfig['contingency']);
@@ -71,6 +75,7 @@ class PricingConfigurationValidator
     /**
      * Validates calibration factor.
      */
+    /** @param array<string, mixed> $pricingConfig */
     private function validateCalibrationFactor(array $pricingConfig): void
     {
         if (!is_numeric($pricingConfig['calibration_factor']) || $pricingConfig['calibration_factor'] <= 0) {
@@ -81,6 +86,7 @@ class PricingConfigurationValidator
     /**
      * Validates multiplier configurations.
      */
+    /** @param array<string, mixed> $pricingConfig */
     private function validateMultipliers(array $pricingConfig): void
     {
         $multiplierTypes = ['complexity', 'risk', 'speed', 'support', 'discovery', 'compliance', 'real_time'];
@@ -101,6 +107,7 @@ class PricingConfigurationValidator
     /**
      * Validates project type configurations.
      */
+    /** @param array<string, mixed> $pricingConfig */
     private function validateProjectTypes(array $pricingConfig): void
     {
         foreach ($pricingConfig['project_types'] as $type => $config) {
@@ -121,6 +128,7 @@ class PricingConfigurationValidator
     /**
      * Validates feature configurations.
      */
+    /** @param array<string, mixed> $pricingConfig */
     private function validateFeatures(array $pricingConfig): void
     {
         foreach ($pricingConfig['features'] as $feature => $config) {
@@ -141,6 +149,7 @@ class PricingConfigurationValidator
     /**
      * Validates optional configurations if present.
      */
+    /** @param array<string, mixed> $pricingConfig */
     private function validateOptionalConfigurations(array $pricingConfig): void
     {
         $this->validatePhaseConfiguration($pricingConfig);
@@ -151,6 +160,7 @@ class PricingConfigurationValidator
     /**
      * Validates phase configuration.
      */
+    /** @param array<string, mixed> $pricingConfig */
     private function validatePhaseConfiguration(array $pricingConfig): void
     {
         if (!isset($pricingConfig['phases'])) {
@@ -170,6 +180,7 @@ class PricingConfigurationValidator
     /**
      * Validates payment schedule configuration.
      */
+    /** @param array<string, mixed> $pricingConfig */
     private function validatePaymentScheduleConfiguration(array $pricingConfig): void
     {
         if (!isset($pricingConfig['payment_schedules'])) {
@@ -193,20 +204,28 @@ class PricingConfigurationValidator
     /**
      * Validates payment thresholds.
      */
+    /** @param array<string, int> $thresholds */
     private function validatePaymentThresholds(array $thresholds): void
     {
-        if (isset($thresholds['small_project']) && (!is_numeric($thresholds['small_project']) || $thresholds['small_project'] <= 0)) {
-            throw PricingConfigurationException::invalidPaymentThreshold('small_project', $thresholds['small_project']);
+        if (isset($thresholds['small_project'])) {
+            $value = $thresholds['small_project'];
+            if (!is_numeric($value) || $value <= 0) {
+                throw PricingConfigurationException::invalidPaymentThreshold('small_project', $value);
+            }
         }
 
-        if (isset($thresholds['medium_project']) && (!is_numeric($thresholds['medium_project']) || $thresholds['medium_project'] <= 0)) {
-            throw PricingConfigurationException::invalidPaymentThreshold('medium_project', $thresholds['medium_project']);
+        if (isset($thresholds['medium_project'])) {
+            $value = $thresholds['medium_project'];
+            if (!is_numeric($value) || $value <= 0) {
+                throw PricingConfigurationException::invalidPaymentThreshold('medium_project', $value);
+            }
         }
     }
 
     /**
      * Validates a schedule definition.
      */
+    /** @param array<string, mixed> $schedule */
     private function validateScheduleDefinition(string $type, array $schedule): void
     {
         foreach ($schedule as $payment) {
@@ -222,6 +241,7 @@ class PricingConfigurationValidator
     /**
      * Validates support configuration.
      */
+    /** @param array<string, mixed> $pricingConfig */
     private function validateSupportConfiguration(array $pricingConfig): void
     {
         if (!isset($pricingConfig['support'])) {

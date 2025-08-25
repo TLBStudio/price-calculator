@@ -13,6 +13,7 @@ class PricingEngine
         private PhaseCalculator $phaseCalculator,
         private PaymentScheduleCalculator $paymentCalculator,
         private SupportCalculator $supportCalculator,
+        /** @var array<string, mixed> */
         private array $pricingConfig,
     ) {
         $this->validateConfiguration();
@@ -30,6 +31,10 @@ class PricingEngine
 
     /**
      * Generate a complete project estimate.
+     */
+    /**
+     * @phpstan-param array<string, string|array<string>|int|float|null> $input
+     * @return array<string, mixed>
      */
     public function estimate(array $input): array
     {

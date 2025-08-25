@@ -4,8 +4,10 @@ namespace App\Service;
 
 class BusinessRuleValidator
 {
+    /** @var array<string, mixed> */
     private array $pricingConfig;
 
+    /** @param array<string, mixed> $pricingConfig */
     public function __construct(array $pricingConfig)
     {
         $this->pricingConfig = $pricingConfig;
@@ -13,6 +15,10 @@ class BusinessRuleValidator
 
     /**
      * Validates business rules beyond basic form validation.
+     */
+    /**
+     * @phpstan-param array<string, string|array<string>|null> $data
+     * @return list<string>
      */
     public function validateBusinessRules(array $data): array
     {
@@ -50,8 +56,9 @@ class BusinessRuleValidator
         // Validate feature combinations
         if (isset($data['features'])) {
             $featureIssues = $this->validateFeatureCombinations($data['features']);
-            if (!empty($featureIssues['incompatible'])) {
-                $warnings[] = $featureIssues['message'];
+            // Add all feature issues to warnings
+            foreach ($featureIssues as $issue) {
+                $warnings[] = $issue['message'];
             }
         }
 
@@ -60,6 +67,10 @@ class BusinessRuleValidator
 
     /**
      * Get compatibility warnings for display in frontend.
+     */
+    /**
+     * @phpstan-param array<string, string|array<string>|null> $data
+     * @return list<array<string, mixed>>
      */
     public function getCompatibilityWarnings(array $data): array
     {
@@ -91,6 +102,10 @@ class BusinessRuleValidator
     /**
      * Check if selected features are compatible with the project type.
      */
+    /**
+     * @phpstan-param array<string> $features
+     * @return array<string, array<string>|string>
+     */
     private function checkFeatureCompatibility(string $projectType, array $features): array
     {
         $incompatible = [];
@@ -116,6 +131,10 @@ class BusinessRuleValidator
 
     /**
      * Validate feature combinations for logical consistency.
+     */
+    /**
+     * @phpstan-param array<string> $features
+     * @return list<array<string, array<string>|string>>
      */
     private function validateFeatureCombinations(array $features): array
     {

@@ -6,8 +6,10 @@ use App\Exception\PricingConfigurationException;
 
 class EstimateInputValidator
 {
+    /** @var array<string, mixed> */
     private array $pricingConfig;
 
+    /** @param array<string, mixed> $pricingConfig */
     public function __construct(array $pricingConfig)
     {
         $this->pricingConfig = $pricingConfig;
@@ -18,6 +20,7 @@ class EstimateInputValidator
      *
      * @throws PricingConfigurationException
      */
+    /** @param array<string, mixed> $input */
     public function validate(array $input): void
     {
         $this->validateProjectType($input);
@@ -30,6 +33,7 @@ class EstimateInputValidator
     /**
      * Validates project type.
      */
+    /** @param array<string, mixed> $input */
     private function validateProjectType(array $input): void
     {
         if (!isset($input['projectType'])) {
@@ -44,6 +48,7 @@ class EstimateInputValidator
     /**
      * Validates features.
      */
+    /** @param array<string, mixed> $input */
     private function validateFeatures(array $input): void
     {
         if (isset($input['features'])) {
@@ -58,6 +63,7 @@ class EstimateInputValidator
     /**
      * Validates bundles.
      */
+    /** @param array<string, mixed> $input */
     private function validateBundles(array $input): void
     {
         if (isset($input['bundles'])) {
@@ -77,6 +83,7 @@ class EstimateInputValidator
     /**
      * Validates required multipliers.
      */
+    /** @param array<string, mixed> $input */
     private function validateRequiredMultipliers(array $input): void
     {
         $requiredMultipliers = ['complexity', 'risk', 'speed', 'discovery', 'support'];
@@ -96,6 +103,7 @@ class EstimateInputValidator
     /**
      * Validates optional multipliers.
      */
+    /** @param array<string, mixed> $input */
     private function validateOptionalMultipliers(array $input): void
     {
         $optionalMultipliers = ['compliance', 'realTime'];

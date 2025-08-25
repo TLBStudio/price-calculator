@@ -8,6 +8,7 @@ use PHPUnit\Framework\TestCase;
 
 class PricingCalculatorTest extends TestCase
 {
+    /** @var array<string, mixed> */
     private array $pricingConfig;
 
     protected function setUp(): void

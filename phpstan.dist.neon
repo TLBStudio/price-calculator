@@ -6,3 +6,9 @@ parameters:
         - public/
         - src/
         - tests/
+
+    # Suppress warnings about defensive programming and test practices
+    ignoreErrors:
+        - '#Call to function is_numeric\(\) with int will always evaluate to true#'
+        - '#Call to function method_exists\(\) with .* will always evaluate to true#'
+        - '#Call to method .*::assertNotNull\(\) with .* will always evaluate to true#'

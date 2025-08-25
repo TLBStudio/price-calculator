@@ -8,6 +8,7 @@ use PHPUnit\Framework\TestCase;
 
 class BusinessRuleValidatorTest extends TestCase
 {
+    /** @var array<string, mixed> */
     private array $pricingConfig;
 
     protected function setUp(): void

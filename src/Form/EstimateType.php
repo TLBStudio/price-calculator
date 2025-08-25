@@ -9,8 +9,10 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class EstimateType extends AbstractType
 {
+    /** @var array<string, mixed> */
     private array $pricingConfig;
 
+    /** @param array<string, mixed> $pricingConfig */
     public function __construct(array $pricingConfig)
     {
         $this->pricingConfig = $pricingConfig;

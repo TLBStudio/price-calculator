@@ -17,7 +17,7 @@ class EstimatorController extends AbstractController
     }
 
     #[Route('/', name: 'estimate')]
-    public function index(Request $request, PricingEngine $engine)
+    public function index(Request $request, PricingEngine $engine): \Symfony\Component\HttpFoundation\Response
     {
         $estimate = null;
         $inputData = null;

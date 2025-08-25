@@ -4,8 +4,10 @@ namespace App\Service;
 
 class PhaseCalculator
 {
+    /** @var array<string, mixed> */
     private array $phaseConfig;
 
+    /** @param array<string, mixed> $pricingConfig */
     public function __construct(array $pricingConfig)
     {
         $this->phaseConfig = $pricingConfig['phases'] ?? [];
@@ -14,6 +16,7 @@ class PhaseCalculator
     /**
      * Calculate phase breakdown for a project.
      */
+    /** @return array<string, mixed> */
     public function calculatePhases(float $totalLow, float $totalHigh, float $discoveryFactor): array
     {
         $phasePercentages = $this->calculatePhasePercentages($discoveryFactor);
@@ -24,6 +27,7 @@ class PhaseCalculator
     /**
      * Calculate phase percentages based on discovery factor.
      */
+    /** @return array<string, float> */
     private function calculatePhasePercentages(float $discoveryFactor): array
     {
         // Calculate dynamic discovery percentage using only the decimal part of discovery factor
@@ -58,6 +62,10 @@ class PhaseCalculator
 
     /**
      * Calculate actual costs for each phase.
+     */
+    /**
+     * @phpstan-param array<string, float> $phasePercentages
+     * @return array<string, array<string, float>>
      */
     private function calculatePhaseCosts(float $totalLow, float $totalHigh, array $phasePercentages): array
     {

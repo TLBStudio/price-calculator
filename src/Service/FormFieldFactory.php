@@ -9,8 +9,10 @@ use Symfony\Component\Validator\Constraints as Assert;
 
 class FormFieldFactory
 {
+    /** @var array<string, mixed> */
     private array $pricingConfig;
 
+    /** @param array<string, mixed> $pricingConfig */
     public function __construct(array $pricingConfig)
     {
         $this->pricingConfig = $pricingConfig;
@@ -19,6 +21,7 @@ class FormFieldFactory
     /**
      * Add a choice field with standard configuration.
      */
+    /** @param array<string, mixed> $additionalConstraints */
     public function addChoiceField(
         FormBuilderInterface $builder,
         string $fieldName,
@@ -122,6 +125,10 @@ class FormFieldFactory
     /**
      * Create choices with titles for display.
      */
+    /**
+     * @phpstan-param array<string, array<string, string>> $items
+     * @return array<string, string>
+     */
     private function createTitleChoices(array $items): array
     {
         $choices = [];
@@ -136,10 +143,14 @@ class FormFieldFactory
     /**
      * Create choices for multiplier fields.
      */
-    private function createMultiplierChoices(array $multipliers): array
+    /**
+     * @phpstan-param array<string, float> $items
+     * @return array<string, string>
+     */
+    private function createMultiplierChoices(array $items): array
     {
         $choices = [];
-        foreach ($multipliers as $key => $value) {
+        foreach ($items as $key => $value) {
             $choices[$this->formatLabel($key)] = $key;
         }
 

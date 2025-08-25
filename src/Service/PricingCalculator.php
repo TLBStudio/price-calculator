@@ -4,10 +4,16 @@ namespace App\Service;
 
 class PricingCalculator
 {
+    /** @var array<string, mixed> */
     private array $pricingConfig;
+
+    /** @var array<string, float> */
     private array $factors;
+
+    /** @var array<string, int> */
     private array $rates;
 
+    /** @param array<string, mixed> $pricingConfig */
     public function __construct(array $pricingConfig)
     {
         $this->pricingConfig = $pricingConfig;
@@ -41,6 +47,7 @@ class PricingCalculator
     /**
      * Calculate project days based on input.
      */
+    /** @param array<string, mixed> $input */
     public function calculateDays(array $input): float
     {
         $days = $this->calculateBaseDays($input);
@@ -53,6 +60,7 @@ class PricingCalculator
     /**
      * Calculate base days from project type and features.
      */
+    /** @param array<string, mixed> $input */
     private function calculateBaseDays(array $input): float
     {
         $days = floor($this->pricingConfig['project_types'][$input['projectType']]['days'] ?? 0);
@@ -75,6 +83,7 @@ class PricingCalculator
     /**
      * Apply all multipliers to the base days.
      */
+    /** @param array<string, mixed> $input */
     private function applyMultipliers(float $days, array $input): float
     {
         // Set multiplier factors
@@ -120,6 +129,7 @@ class PricingCalculator
     /**
      * Calculate pricing estimates.
      */
+    /** @return array<string, float> */
     public function calculatePricing(float $days): array
     {
         $low = $this->calculateLowEstimate($days);
@@ -184,6 +194,7 @@ class PricingCalculator
     /**
      * Get factors for use in other calculations.
      */
+    /** @return array<string, float> */
     public function getFactors(): array
     {
         return $this->factors;
