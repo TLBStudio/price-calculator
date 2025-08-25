@@ -26,7 +26,7 @@ class EstimateType extends AbstractType
         $fieldFactory->addProjectTypeField($builder);
 
         // Discovery
-        $fieldFactory->addChoiceField($builder, 'discovery', 'Discovery & Research', 'discover');
+        $fieldFactory->addChoiceField($builder, 'discovery', 'Discovery & Research', 'discovery');
 
         // Complexity
         $fieldFactory->addChoiceField($builder, 'complexity', 'Project Complexity', 'complexity');

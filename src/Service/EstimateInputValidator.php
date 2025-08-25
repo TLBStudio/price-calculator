@@ -66,7 +66,7 @@ class EstimateInputValidator
                 throw new PricingConfigurationException(sprintf('Multiplier %s is required', $multiplier));
             }
 
-            $configKey = $multiplier === 'discovery' ? 'discover' : $multiplier;
+            $configKey = $multiplier;
             if (!isset($this->pricingConfig['multipliers'][$configKey][$input[$multiplier]])) {
                 throw PricingConfigurationException::invalidMultiplier($multiplier, $input[$multiplier], 'invalid value');
             }

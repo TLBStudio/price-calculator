@@ -83,7 +83,7 @@ class PricingConfigurationValidator
      */
     private function validateMultipliers(array $pricingConfig): void
     {
-        $multiplierTypes = ['complexity', 'risk', 'speed', 'support', 'discover', 'compliance', 'real_time'];
+        $multiplierTypes = ['complexity', 'risk', 'speed', 'support', 'discovery', 'compliance', 'real_time'];
 
         foreach ($multiplierTypes as $type) {
             if (!isset($pricingConfig['multipliers'][$type])) {

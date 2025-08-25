@@ -73,7 +73,7 @@ class PricingCalculator
         $this->factors['complexity'] = $this->pricingConfig['multipliers']['complexity'][$input['complexity']] ?? 1;
         $this->factors['risk'] = $this->pricingConfig['multipliers']['risk'][$input['risk']] ?? 1;
         $this->factors['speed'] = $this->pricingConfig['multipliers']['speed'][$input['speed']] ?? 1;
-        $this->factors['discovery'] = $this->pricingConfig['multipliers']['discover'][$input['discovery']] ?? 1.05;
+        $this->factors['discovery'] = $this->pricingConfig['multipliers']['discovery'][$input['discovery']] ?? 1.05;
         $this->factors['support'] = $this->pricingConfig['multipliers']['support'][$input['support']] ?? 1;
 
         // Handle optional new multipliers

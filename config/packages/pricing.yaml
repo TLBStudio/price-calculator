@@ -83,6 +83,10 @@ parameters:
         days: 6
         title: "Brochure site (FlightCMS or similar)"
         description: "Simple informational website presenting a business, organization, or service online."
+      rebuild_migration:
+        days: 8
+        title: "Rebuild / Migration"
+        description: "Updating an existing website while keeping design and functionality aligned with best practices."
       headless_cms_site:
         days: 8
         title: "Headless CMS Site (Storyblok or similar)"
@@ -91,6 +95,10 @@ parameters:
         days: 10
         title: "Ecommerce site"
         description: "Online store to sell products/services. Typically Shopify or custom."
+      ecommerce_migration:
+        days: 18
+        title: "E-commerce Platform Migration"
+        description: "Migrating from one e-commerce platform to another while preserving data and functionality."
       internal_portal:
         days: 20
         title: "Internal portal / Intranet"
@@ -99,6 +107,18 @@ parameters:
         days: 20
         title: "Web App"
         description: "Interactive software application running in a browser with dynamic functionality."
+      educational_institution:
+        days: 25
+        title: "Educational Institution Site"
+        description: "University/college website with course management, student portals, and alumni networks."
+      progressive_web_app:
+        days: 25
+        title: "Progressive Web App (PWA)"
+        description: "Web application with native app-like features including offline support, push notifications, and app-like experience."
+      nonprofit_organization:
+        days: 30
+        title: "Non-profit Organization Site"
+        description: "Donation management, volunteer coordination, event management, and impact reporting."
       learning_platform:
         days: 30
         title: "Learning platform / Education tool"
@@ -107,55 +127,30 @@ parameters:
         days: 30
         title: "Mobile App"
         description: "Application designed to run on a mobile device, native or hybrid."
-      rebuild_migration:
-        days: 8
-        title: "Rebuild / Migration"
-        description: "Updating an existing website while keeping design and functionality aligned with best practices."
-
-      # Modern Web Applications
-      progressive_web_app:
-        days: 25
-        title: "Progressive Web App (PWA)"
-        description: "Web application with native app-like features including offline support, push notifications, and app-like experience."
-
-      ecommerce_migration:
-        days: 18
-        title: "E-commerce Platform Migration"
-        description: "Migrating from one e-commerce platform to another while preserving data and functionality."
-      multi_tenant_saas:
-        days: 40
-        title: "Multi-tenant SaaS Platform"
-        description: "Software-as-a-Service platform supporting multiple client organizations with isolated data and features."
-      real_time_collaboration:
-        days: 35
-        title: "Real-time Collaboration Tool"
-        description: "Web application with real-time features including chat, document editing, and live updates."
-      marketplace_platform:
-        days: 45
-        title: "Marketplace Platform"
-        description: "Multi-vendor marketplace connecting buyers and sellers with transaction management."
-
-      # Industry-Specific Platforms
-      healthcare_portal:
-        days: 35
-        title: "Healthcare Portal"
-        description: "HIPAA-compliant patient portal with appointment booking, medical records, and telemedicine features."
-      financial_services:
-        days: 40
-        title: "Financial Services Platform"
-        description: "Banking, investment, or insurance platform with compliance and advanced security features."
-      educational_institution:
-        days: 25
-        title: "Educational Institution Site"
-        description: "University/college website with course management, student portals, and alumni networks."
-      nonprofit_organization:
-        days: 20
-        title: "Non-profit Organization Site"
-        description: "Donation management, volunteer coordination, event management, and impact reporting."
       real_estate_platform:
         days: 30
         title: "Real Estate Platform"
         description: "Property listings, virtual tours, mortgage calculators, and agent management system."
+      real_time_collaboration:
+        days: 35
+        title: "Real-time Collaboration Tool"
+        description: "Web application with real-time features including chat, document editing, and live updates."
+      healthcare_portal:
+        days: 35
+        title: "Healthcare Portal"
+        description: "HIPAA-compliant patient portal with appointment booking, medical records, and telemedicine features."
+      multi_tenant_saas:
+        days: 40
+        title: "Multi-tenant SaaS Platform"
+        description: "Software-as-a-Service platform supporting multiple client organizations with isolated data and features."
+      financial_services:
+        days: 40
+        title: "Financial Services Platform"
+        description: "Banking, investment, or insurance platform with compliance and advanced security features."
+      marketplace_platform:
+        days: 45
+        title: "Marketplace Platform"
+        description: "Multi-vendor marketplace connecting buyers and sellers with transaction management."
 
     features:
       design_one:
@@ -397,7 +392,7 @@ parameters:
         normal: 1
         medium: 1.25
         high: 1.5
-      discover:
+      discovery:
         normal: 1.05
         medium: 1.1
         high: 1.2
