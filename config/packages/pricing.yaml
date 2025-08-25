@@ -205,6 +205,10 @@ parameters:
         days: 7
         title: "Content Personalization"
         description: "User segmentation, dynamic content, recommendation engines, behavioral targeting, personalized experiences."
+      copywriting:
+        days: 3
+        title: "Copywriting"
+        description: "Professional copywriting services for website content, marketing materials, and user experience optimization."
       dashboard_reporting:
         days: 5
         title: "Dashboard & Reporting"
@@ -237,6 +241,10 @@ parameters:
         days: 6
         title: "HIPAA Compliance"
         description: "Healthcare data security, patient privacy protection, audit trails, compliance reporting, secure messaging."
+      image_sourcing:
+        days: 1
+        title: "Image Sourcing"
+        description: "Curated image selection, licensing, and optimization for website visuals and marketing materials."
       integration_hub:
         days: 6
         title: "Integration Hub"
@@ -281,6 +289,10 @@ parameters:
         days: 9
         title: "Third party integration (complex)"
         description: "Hubspot, Salesforce, Zendesk. Requires custom development."
+      video_production:
+        days: 4
+        title: "Video Production"
+        description: "Professional video content creation including scripting, filming, editing, and optimization for web platforms."
 
     # Feature compatibility rules
     compatibility:
