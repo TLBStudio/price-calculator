@@ -279,6 +279,11 @@ class PricingCalculatorTest extends TestCase
 
         $input = [
             'projectType' => 'web_app',
+            'complexity' => null,
+            'risk' => null,
+            'speed' => null,
+            'discovery' => null,
+            'support' => null,
             // Missing features, bundles, and multipliers
         ];
 
