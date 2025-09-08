@@ -39,7 +39,7 @@ The pricing engine is sophisticated enough to handle real-world scenarios and co
 
 ## Technical Architecture
 
-### Backend: Symfony 7.3 with PHP 8.4+
+### Backend: Symfony 7.3 with PHP 8.2+
 - **Clean Service-Oriented Architecture** with dedicated services for each responsibility
 - **Enhanced Validation Layer** with multiple validation services:
   - `PricingConfigurationValidator` - Validates pricing configuration
@@ -116,7 +116,7 @@ The pricing engine is sophisticated enough to handle real-world scenarios and co
 
 ### 📋 Technical Debt Addressed
 - **Before**: Single `PricingEngine` class handling everything (517 lines)
-- **After**: Clean orchestration with focused services (main service reduced to 85 lines)
+- **After**: Clean orchestration with focused services (main service reduced to 83 lines)
 - **Before**: Validation scattered throughout main service
 - **After**: Dedicated validation services with clear responsibilities
 - **Before**: Code duplication in form handling

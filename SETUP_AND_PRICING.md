@@ -11,7 +11,7 @@
 ## Project Setup
 
 ### Prerequisites
-- PHP 8.4 or higher
+- PHP 8.2 or higher
 - Composer
 - Node.js 18+ and npm
 - Docker (optional, for containerized development)
@@ -95,7 +95,7 @@ parameters:
 The pricing system now uses a clean, service-oriented architecture with dedicated services for each responsibility:
 
 ### Core Services
-1. **`PricingEngine`** - Main orchestrator (85 lines, simplified from 517)
+1. **`PricingEngine`** - Main orchestrator (83 lines, simplified from 517)
 2. **`PricingCalculator`** - Core pricing calculations
 3. **`PhaseCalculator`** - Phase breakdown calculations
 4. **`PaymentScheduleCalculator`** - Payment schedule logic

@@ -38,7 +38,7 @@ This document summarizes the comprehensive refactoring work completed to improve
 ## 🏗️ New Service Architecture
 
 ### Core Services
-1. **`PricingEngine`** - Main orchestrator (simplified from 517 to 85 lines)
+1. **`PricingEngine`** - Main orchestrator (simplified from 517 to 83 lines)
 2. **`PricingConfigurationValidator`** - Configuration validation
 3. **`EstimateInputValidator`** - Input data validation
 4. **`BusinessRuleValidator`** - Business rule validation
