@@ -154,7 +154,8 @@ class FormFieldFactory
     {
         $choices = [];
         foreach ($items as $key => $value) {
-            $choices[$this->formatLabel($key) . ' (' . $value . '%)'] = $key;
+            // Format the label with the percentage e.g 1 = 100% 1.5 = +50% 2 = +100%
+            $choices[$this->formatLabel($key) . ' (+' . (($value * 100) - 100) . '%)'] = $key;
         }
 
         return $choices;
