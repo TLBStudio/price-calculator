@@ -31,7 +31,6 @@ class FormFieldFactory
         array $additionalConstraints = [],
     ): void {
         $choices = $this->createMultiplierChoices($this->pricingConfig['multipliers'][$configKey]);
-        dump($choices);
 
         $constraints = array_merge([
             new Assert\NotBlank([

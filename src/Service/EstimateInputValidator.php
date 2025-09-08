@@ -37,7 +37,7 @@ class EstimateInputValidator
     private function validateProjectType(array $input): void
     {
         if (!isset($input['projectType'])) {
-            throw new PricingConfigurationException('Project type is required');
+            throw PricingConfigurationException::missingRequiredField('project type');
         }
 
         if (!isset($this->pricingConfig['project_types'][$input['projectType']])) {
@@ -70,12 +70,12 @@ class EstimateInputValidator
             $bundleQuantity = $input['bundles'];
 
             if (!is_numeric($bundleQuantity) || $bundleQuantity < 0) {
-                throw new PricingConfigurationException('Bundle quantity must be a non-negative number');
+                throw PricingConfigurationException::invalidBundleQuantity('Bundle quantity must be a non-negative number');
             }
 
             $maxQuantity = $this->pricingConfig['bundles']['max_quantity'] ?? 50;
             if ($bundleQuantity > $maxQuantity) {
-                throw new PricingConfigurationException(sprintf('Bundle quantity cannot exceed %d', $maxQuantity));
+                throw PricingConfigurationException::invalidBundleQuantity(sprintf('Bundle quantity cannot exceed %d', $maxQuantity));
             }
         }
     }
@@ -90,7 +90,7 @@ class EstimateInputValidator
 
         foreach ($requiredMultipliers as $multiplier) {
             if (!isset($input[$multiplier])) {
-                throw new PricingConfigurationException(sprintf('Multiplier %s is required', $multiplier));
+                throw PricingConfigurationException::missingRequiredMultiplier($multiplier);
             }
 
             $configKey = $multiplier;

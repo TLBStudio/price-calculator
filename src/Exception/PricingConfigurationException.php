@@ -63,4 +63,19 @@ class PricingConfigurationException extends \RuntimeException
     {
         return new self(sprintf('Invalid payment threshold for %s: %s. Must be a positive number.', $threshold, var_export($value, true)));
     }
+
+    public static function missingRequiredField(string $fieldName): self
+    {
+        return new self(sprintf("%s is required", ucfirst($fieldName)));
+    }
+
+    public static function invalidBundleQuantity(string $message): self
+    {
+        return new self($message);
+    }
+
+    public static function missingRequiredMultiplier(string $multiplier): self
+    {
+        return new self(sprintf("Multiplier %s is required", $multiplier));
+    }
 }

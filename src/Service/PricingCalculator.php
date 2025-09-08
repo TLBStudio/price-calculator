@@ -4,6 +4,10 @@ namespace App\Service;
 
 class PricingCalculator
 {
+    // Default multiplier values
+    private const DEFAULT_MULTIPLIER_FACTOR = 1.0;
+    private const DEFAULT_DISCOVERY_FACTOR = 1.0;
+
     /** @var array<string, mixed> */
     private array $pricingConfig;
 
@@ -86,33 +90,64 @@ class PricingCalculator
     /** @param array<string, mixed> $input */
     private function applyMultipliers(float $days, array $input): float
     {
-        // Set multiplier factors
-        $this->factors['complexity'] = $this->pricingConfig['multipliers']['complexity'][$input['complexity']] ?? 1;
-        $this->factors['risk'] = $this->pricingConfig['multipliers']['risk'][$input['risk']] ?? 1;
-        $this->factors['speed'] = $this->pricingConfig['multipliers']['speed'][$input['speed']] ?? 1;
-        $this->factors['discovery'] = $this->pricingConfig['multipliers']['discovery'][$input['discovery']] ?? 1.05;
-        $this->factors['support'] = $this->pricingConfig['multipliers']['support'][$input['support']] ?? 1;
+        $this->setMultiplierFactors($input);
+        return $this->applyAllMultipliers($days);
+    }
 
-        // Handle optional new multipliers
-        if (isset($input['compliance']) && isset($this->pricingConfig['multipliers']['compliance'])) {
-            $this->factors['compliance'] = $this->pricingConfig['multipliers']['compliance'][$input['compliance']] ?? 1;
+    /**
+     * Set all multiplier factors from input.
+     */
+    /** @param array<string, mixed> $input */
+    private function setMultiplierFactors(array $input): void
+    {
+        $this->setRequiredMultiplierFactors($input);
+        $this->setOptionalMultiplierFactors($input);
+    }
+
+    /**
+     * Set required multiplier factors.
+     */
+    /** @param array<string, mixed> $input */
+    private function setRequiredMultiplierFactors(array $input): void
+    {
+        $this->factors["complexity"] = $this->pricingConfig["multipliers"]["complexity"][$input["complexity"]] ?? self::DEFAULT_MULTIPLIER_FACTOR;
+        $this->factors["risk"] = $this->pricingConfig["multipliers"]["risk"][$input["risk"]] ?? self::DEFAULT_MULTIPLIER_FACTOR;
+        $this->factors["speed"] = $this->pricingConfig["multipliers"]["speed"][$input["speed"]] ?? self::DEFAULT_MULTIPLIER_FACTOR;
+        $this->factors["discovery"] = $this->pricingConfig["multipliers"]["discovery"][$input["discovery"]] ?? self::DEFAULT_DISCOVERY_FACTOR;
+        $this->factors["support"] = $this->pricingConfig["multipliers"]["support"][$input["support"]] ?? self::DEFAULT_MULTIPLIER_FACTOR;
+    }
+
+    /**
+     * Set optional multiplier factors.
+     */
+    /** @param array<string, mixed> $input */
+    private function setOptionalMultiplierFactors(array $input): void
+    {
+        if (isset($input["compliance"]) && isset($this->pricingConfig["multipliers"]["compliance"])) {
+            $this->factors["compliance"] = $this->pricingConfig["multipliers"]["compliance"][$input["compliance"]] ?? self::DEFAULT_MULTIPLIER_FACTOR;
         }
 
-        if (isset($input['realTime']) && isset($this->pricingConfig['multipliers']['real_time'])) {
-            $this->factors['real_time'] = $this->pricingConfig['multipliers']['real_time'][$input['realTime']] ?? 1;
+        if (isset($input["realTime"]) && isset($this->pricingConfig["multipliers"]["real_time"])) {
+            $this->factors["real_time"] = $this->pricingConfig["multipliers"]["real_time"][$input["realTime"]] ?? self::DEFAULT_MULTIPLIER_FACTOR;
         }
+    }
 
-        // Apply multipliers
-        $days *= $this->factors['complexity'];
-        $days *= $this->factors['risk'];
-        $days *= $this->factors['speed'];
+    /**
+     * Apply all set multipliers to days.
+     */
+    private function applyAllMultipliers(float $days): float
+    {
+        // Apply required multipliers
+        $days *= $this->factors["complexity"];
+        $days *= $this->factors["risk"];
+        $days *= $this->factors["speed"];
 
-        // Apply optional new multipliers
-        if (isset($this->factors['compliance'])) {
-            $days *= $this->factors['compliance'];
+        // Apply optional multipliers
+        if (isset($this->factors["compliance"])) {
+            $days *= $this->factors["compliance"];
         }
-        if (isset($this->factors['real_time'])) {
-            $days *= $this->factors['real_time'];
+        if (isset($this->factors["real_time"])) {
+            $days *= $this->factors["real_time"];
         }
 
         return $days;
@@ -140,18 +175,25 @@ class PricingCalculator
             'high' => round($high),
         ];
     }
+    /**
+     * Calculate estimate with the specified rate type.
+     */
+    private function calculateEstimate(float $days, string $rateType): float
+    {
+        $estimate = $days * $this->rates[$rateType];
+        $estimate = $this->applyProjectManagementFactor($estimate);
+        $estimate = $this->applyDiscoveryFactor($estimate);
+        $estimate = $this->applyContingencyFactor($estimate);
+
+        return $estimate;
+    }
 
     /**
      * Calculate low estimate.
      */
     private function calculateLowEstimate(float $days): float
     {
-        $estimate = $days * $this->rates['min'];
-        $estimate = $this->applyProjectManagementFactor($estimate);
-        $estimate = $this->applyDiscoveryFactor($estimate);
-        $estimate = $this->applyContingencyFactor($estimate);
-
-        return $estimate;
+        return $this->calculateEstimate($days, "min");
     }
 
     /**
@@ -159,14 +201,8 @@ class PricingCalculator
      */
     private function calculateHighEstimate(float $days): float
     {
-        $estimate = $days * $this->rates['max'];
-        $estimate = $this->applyProjectManagementFactor($estimate);
-        $estimate = $this->applyDiscoveryFactor($estimate);
-        $estimate = $this->applyContingencyFactor($estimate);
-
-        return $estimate;
+        return $this->calculateEstimate($days, "max");
     }
-
     /**
      * Apply project management factor.
      */
