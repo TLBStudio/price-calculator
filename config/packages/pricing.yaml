@@ -3,7 +3,7 @@ parameters:
     calibration_factor: 1.0
     day_rate:
       min: 630       # £90/hour × 7hr day
-      max: 735       # £105/hour × 7hr day
+      max: 805       # £115/hour × 7hr day
     contingency: 0.15
     project_management: 0.15
 
@@ -13,10 +13,10 @@ parameters:
       # These percentages should total 0.95 (95% of remaining space), leaving 5% for deployment
       # The deployment percentage is calculated dynamically as the remainder
       base_percentages:
-        project_management: 0.15  # 15% of remaining space
-        design: 0.10              # 10% of remaining space
-        build: 0.55               # 55% of remaining space
-        qa: 0.15                  # 15% of remaining space
+        project_management: 0.15
+        design: 0.10
+        build: 0.55
+        qa: 0.15
       # Total: 0.95 (95% of remaining space after discovery)
 
     # Payment schedule configuration
@@ -84,7 +84,7 @@ parameters:
         title: "Brochure site - FlightCMS or similar"
         description: "Simple informational website presenting a business, organization, or service online."
       rebuild_migration:
-        days: 8
+        days: 10
         title: "Rebuild / Migration"
         description: "Updating an existing website while keeping design and functionality aligned with best practices."
       headless_cms_site:
@@ -104,19 +104,19 @@ parameters:
         title: "Internal portal / Intranet"
         description: "Private platform for employees to access company resources and tools."
       webapp:
-        days: 20
+        days: 30
         title: "Web App"
         description: "Interactive software application running in a browser with dynamic functionality."
       educational_institution:
-        days: 25
+        days: 18
         title: "Educational Institution Site"
         description: "University/college website with course management, student portals, and alumni networks."
       progressive_web_app:
-        days: 25
+        days: 35
         title: "Progressive Web App - PWA"
         description: "Web application with native app-like features including offline support, push notifications, and app-like experience."
       nonprofit_organization:
-        days: 30
+        days: 10
         title: "Non-profit Organization Site"
         description: "Donation management, volunteer coordination, event management, and impact reporting."
       learning_platform:
@@ -124,65 +124,61 @@ parameters:
         title: "Learning platform / Education tool"
         description: "Web-based system to deliver, manage, and track educational content."
       mobile_app:
-        days: 30
+        days: 50
         title: "Mobile App"
         description: "Application designed to run on a mobile device, native or hybrid."
       real_estate_platform:
-        days: 30
+        days: 35
         title: "Real Estate Platform"
         description: "Property listings, virtual tours, mortgage calculators, and agent management system."
-      real_time_collaboration:
-        days: 35
-        title: "Real-time Collaboration Tool"
-        description: "Web application with real-time features including chat, document editing, and live updates."
       healthcare_portal:
-        days: 35
+        days: 30
         title: "Healthcare Portal"
         description: "GDPR compliant patient portal with appointment booking, medical records, and telemedicine features."
       multi_tenant_saas:
-        days: 40
+        days: 75
         title: "Multi-tenant SaaS Platform"
         description: "Software-as-a-Service platform supporting multiple client organizations with isolated data and features."
       financial_services:
-        days: 40
+        days: 60
         title: "Financial Services Platform"
         description: "Banking, investment, or insurance platform with compliance and advanced security features."
       marketplace_platform:
-        days: 45
+        days: 75
         title: "Marketplace Platform"
         description: "Multi-vendor marketplace connecting buyers and sellers with transaction management."
 
     features:
       accessibility:
-        days: 5
+        days: 3
         title: "Accessibility compliance"
         description: "WCAG AA/AAA accessibility compliance."
       accessibility_advanced:
-        days: 8
+        days: 7
         title: "Advanced Accessibility"
         description: "WCAG AAA compliance, screen reader optimization, keyboard navigation, color contrast, assistive technology support."
       advanced_analytics:
-        days: 4
+        days: 5
         title: "Advanced Analytics & Insights"
         description: "Custom dashboards, user behavior tracking, conversion funnels, A/B testing, predictive analytics."
       advanced_content_management:
-        days: 6
+        days: 7
         title: "Advanced Content Management"
         description: "Workflow approvals, version control, content scheduling, multi-user editing, content templates."
       advanced_search_filtering:
-        days: 4
+        days: 5
         title: "Advanced Search & Filtering"
         description: "Elasticsearch integration, faceted search, autocomplete, search analytics, advanced filters."
       advanced_security:
-        days: 4
+        days: 10
         title: "Advanced Security & Compliance"
         description: "Two-factor authentication, GDPR compliance, SOC2 preparation, advanced encryption, security audits."
       advanced_user_management:
-        days: 5
+        days: 7
         title: "Advanced User Management"
         description: "Role-based access control, user groups, permissions, audit logging, user lifecycle management."
       ai_ml_features:
-        days: 12
+        days: 15
         title: "AI & Machine Learning"
         description: "Chatbots, recommendation systems, predictive analytics, natural language processing, automated insights."
       analytics_setup:
@@ -194,7 +190,7 @@ parameters:
         title: "API development"
         description: "REST API for external clients or mobile apps."
       cms:
-        days: 8
+        days: 10
         title: "CMS integration / Custom CMS"
         description: "Integration of CMS or custom-built content management system."
       content_personalization:
@@ -222,19 +218,19 @@ parameters:
         title: "Design: 5 days"
         description: "Standalone cost - design already included in site costs."
       devops_hosting:
-        days: 3
+        days: 4
         title: "DevOps / Hosting"
         description: "CI/CD, Docker, server setup or scaling. Not standard hosting."
       ecommerce_features:
-        days: 13
+        days: 10
         title: "Ecommerce features"
         description: "Cart, checkout, discounts, inventory management."
       financial_compliance:
-        days: 5
+        days: 7
         title: "Financial Compliance"
         description: "PCI DSS compliance, KYC verification, AML monitoring, regulatory reporting, secure transactions."
       gdpr_compliance:
-        days: 6
+        days: 3
         title: "GDPR Compliance"
         description: "GDPR compliant data security, client privacy protection, audit trails, compliance reporting, secure messaging."
       image_sourcing:
@@ -242,35 +238,35 @@ parameters:
         title: "Image Sourcing"
         description: "Curated image selection, licensing, and optimization for website visuals and marketing materials."
       integration_hub:
-        days: 6
+        days: 7
         title: "Integration Hub"
         description: "Centralized API management, webhook system, data synchronization, custom integrations, integration monitoring."
       marketing_automation:
-        days: 2
+        days: 5
         title: "Marketing Automation"
         description: "Email automation, workflows, and triggers."
       mobile_app_features:
-        days: 8
+        days: 10
         title: "Mobile App Features"
         description: "Native mobile app development, push notifications, offline sync, app store optimization, mobile-specific UI."
       multi_language:
-        days: 3
+        days: 7
         title: "Multi-language"
         description: "Multi-language or localization support."
       payment_gateway:
-        days: 2
+        days: 3
         title: "Payment gateway"
         description: "Stripe, PayPal, or other payment provider integration."
       performance_optimization:
-        days: 3
+        days: 5
         title: "Performance Optimization"
         description: "CDN setup, image optimization, caching strategies, performance monitoring, Core Web Vitals optimization."
       real_time_notifications:
-        days: 3
+        days: 5
         title: "Real-time Notifications"
         description: "Push notifications, email alerts, SMS integration, in-app notifications, notification preferences."
       seo:
-        days: 2
+        days: 3
         title: "SEO Research & Competitor Analysis"
         description: "Comprehensive keyword research and competitor analysis to identify ranking opportunities, content gaps, and strategic insights that boost your organic search performance and outrank competitors."
       third_party_integration_simple:
@@ -278,11 +274,11 @@ parameters:
         title: "Third party integration - simple"
         description: "Mailchimp, Zapier etc. Simple integration, no custom development."
       third_party_integration_complex:
-        days: 9
+        days: 7
         title: "Third party integration - complex"
         description: "Hubspot, Salesforce, Zendesk. Requires custom development."
       video_production:
-        days: 4
+        days: 7
         title: "Video Production"
         description: "Professional video content creation including scripting, filming, editing, and optimization for web platforms."
 
