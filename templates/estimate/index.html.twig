@@ -5,7 +5,7 @@
 {% block body %}
 <div class="min-h-screen py-8 px-4 sm:px-6 lg:px-8">
     <!-- Header Section -->
-    <div class="max-w-7xl mx-auto mb-8">
+    <div class="mx-auto mb-8">
         <div class="text-center">
             <div class="flex justify-center mb-4">
                 <div class="w-16 h-16 bg-gradient-to-br from-blue-500 to-indigo-600 rounded-2xl flex items-center justify-center shadow-lg">
@@ -19,7 +19,7 @@
         </div>
     </div>
 
-    <div class="max-w-7xl mx-auto">
+    <div class="mx-auto">
         <div class="grid lg:grid-cols-3 gap-8">
             <!-- Form Section -->
             <div class="lg:col-span-2">
@@ -69,7 +69,7 @@
                                 <h3 class="text-lg font-semibold text-gray-900">Project Modifiers</h3>
                             </div>
                             <div class="pl-11">
-                                <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
                                     <div class="space-y-2">
                                         <label class="block text-sm font-medium text-gray-700">Discovery Needs</label>
                                         {{ form_widget(form.discovery, {
@@ -174,12 +174,13 @@
                                 <h3 class="text-lg font-semibold text-gray-900">Additional Features</h3>
                             </div>
                             <div class="pl-11">
-                                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
+                                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3">
                                     {% for subfield in form.features %}
                                         <label class="flex items-start space-x-3 p-3 border border-gray-200 rounded-xl hover:border-blue-300 hover:shadow-md transition-all duration-200 cursor-pointer bg-white">
                                             {{ form_widget(subfield, {
                                                 'attr': {
-                                                    'class': 'mt-1 w-4 h-4 text-blue-600 border-gray-300 rounded focus:ring-blue-500 focus:ring-2'
+                                                    'class': 'mt-1 w-4 h-4 text-blue-600 border-gray-300 rounded focus:ring-blue-500 focus:ring-2',
+                                                    'title': config.features[subfield.vars.value].description is defined ? config.features[subfield.vars.value].description : ''
                                                 }
                                             }) }}
                                             <div class="flex-1">
@@ -187,9 +188,6 @@
                                                 <span class="font-medium text-gray-900" title="{{ config.features[key].description is defined ? config.features[key].description : '' }}">
                                                     {{ subfield.vars.label }}
                                                 </span>
-                                                {% if config.features[key].description is defined %}
-                                                    <p class="text-sm text-gray-500 mt-1">{{ config.features[key].description }}</p>
-                                                {% endif %}
                                             </div>
                                         </label>
                                     {% endfor %}
@@ -352,7 +350,7 @@
                                         {% if values.high > 0 %}
                                             <div class="space-y-2">
                                                 <div class="flex justify-between items-center">
-                                                    <span class="text-sm font-medium text-gray-700">{{ phase|title|replace({'_': ' '}) }}</span>
+                                                    <span class="text-sm font-medium text-gray-700">{{ phase|length < 3 ? phase|upper|replace({'_': ' '}) : phase|title|replace({'_': ' '}) }}</span>
                                                     <span class="text-sm font-semibold text-gray-900">£{{ values.low|number_format }} – £{{ values.high|number_format }}</span>
                                                 </div>
                                                 {% set percent = (values.high / est.high) * 100 %}

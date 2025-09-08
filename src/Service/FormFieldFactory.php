@@ -31,6 +31,7 @@ class FormFieldFactory
         array $additionalConstraints = [],
     ): void {
         $choices = $this->createMultiplierChoices($this->pricingConfig['multipliers'][$configKey]);
+        dump($choices);
 
         $constraints = array_merge([
             new Assert\NotBlank([
@@ -153,7 +154,7 @@ class FormFieldFactory
     {
         $choices = [];
         foreach ($items as $key => $value) {
-            $choices[$this->formatLabel($key)] = $key;
+            $choices[$this->formatLabel($key) . ' (' . $value . '%)'] = $key;
         }
 
         return $choices;

@@ -39,18 +39,18 @@ parameters:
           high_percent: 0.5
       # Large projects: 4-stage payment
       large:
-        - label: "Deposit (40%)"
-          low_percent: 0.4
-          high_percent: 0.4
-        - label: "Design Sign Off (25%)"
-          low_percent: 0.25
-          high_percent: 0.2
-        - label: "Initial Build Completed (25%)"
-          low_percent: 0.25
-          high_percent: 0.2
+        - label: "Deposit (30%)"
+          low_percent: 0.3
+          high_percent: 0.3
+        - label: "Design Sign Off (30%)"
+          low_percent: 0.3
+          high_percent: 0.3
+        - label: "Initial Build Completed (30%)"
+          low_percent: 0.3
+          high_percent: 0.3
         - label: "Go Live (10%)"
           low_percent: 0.1
-          high_percent: 0.2
+          high_percent: 0.1
 
     # Support cost configuration
     support:
